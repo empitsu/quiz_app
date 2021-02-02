@@ -13,6 +13,8 @@ module.exports = {
     },
   },
   rules: {
+    "react/jsx-uses-react": "off", // we can use JSX without importing React v17.
+    "react/react-in-jsx-scope": "off", // we can use JSX without importing React v17.
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
   },
