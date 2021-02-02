@@ -6,7 +6,15 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
   ],
+  env: {
+    es6: true,
+    browser: true,
+    jest: true,
+    node: true,
+  },
   settings: {
     react: {
       version: "detect",
