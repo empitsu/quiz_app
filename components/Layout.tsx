@@ -3,7 +3,7 @@ type Props = {
 };
 
 function Layout({ children }: Props) {
-  return <div className="hoge">{children}</div>;
+  return <div>{children}</div>;
 }
 
 export default Layout;
