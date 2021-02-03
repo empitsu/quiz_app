@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { ChangeEventHandler, useCallback, useState } from "react";
 import Layout from "../../components/Layout";
 import RegisterSelectionQuiz from "../../components/organisms/RegisterSelectionQuiz";
@@ -18,6 +19,9 @@ export default function Register() {
   return (
     <>
       <Layout>
+        <Head>
+          <title>Register</title>
+        </Head>
         <h1>Register</h1>
         <section>
           <input
