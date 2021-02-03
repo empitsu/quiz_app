@@ -19,9 +19,6 @@ export function RegisterSortQuiz() {
     clearErrors("sortQuizOption"); // always clear errors when there is add action.
   }, [clearErrors]);
 
-  const clearOptions = () => {
-    setIndexes([]);
-  };
   const onSubmit = useCallback<SubmitHandler<FormValues>>((data) => {
     console.log(data);
   }, []);
@@ -67,9 +64,6 @@ export function RegisterSortQuiz() {
         })}
         <button onClick={onClickAddBtn}>追加する</button>
 
-        <button type="button" onClick={clearOptions}>
-          クリア
-        </button>
         <button type="submit">クイズを登録する</button>
       </form>
     </>
