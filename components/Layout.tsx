@@ -11,7 +11,7 @@ type Props = {
 function Layout({ children }: Props) {
   const router = useRouter();
 
-  const [user, loadingForAuth, authError] = useAuthState(getAuth());
+  const [_user, loadingForAuth, authError] = useAuthState(getAuth());
   const onClickLogout = useCallback(async () => {
     await logout();
     if (!authError && !loadingForAuth) {

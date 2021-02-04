@@ -19,7 +19,8 @@
     "react-firebase-hooks": "^2.2.0",
     "react-hook-form": "^6.15.1",
     "react-is": "^17.0.1",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.0",
+    "swr": "^0.4.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

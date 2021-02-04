@@ -3,6 +3,7 @@
  * https://github.com/mizchi/next-boilerplate-20200727/blob/14aac72b22f6ee40b9075e69b3fd542cedb9b7d9/src/client/firebaseHelpers.ts
  */
 import "firebase/auth";
+import "firebase/firestore";
 import firebase from "firebase/app";
 import firebaseConfig from "../config/firebaseConfig.json";
 

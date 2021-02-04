@@ -2,6 +2,8 @@
  *
  * https://github.com/mizchi/next-boilerplate-20200727/blob/14aac72b22f6ee40b9075e69b3fd542cedb9b7d9/src/server/firebaseAdminHelpers.ts
  * https://firebase.google.com/docs/admin/setup
+ * https://firebase.google.com/docs/firestore/quickstart#node.js
+ * https://firebase.google.com/docs/auth/admin/verify-id-tokens
  *
  */
 import * as admin from "firebase-admin";
@@ -22,6 +24,7 @@ export function getAdmin(): admin.app.App {
   }
 }
 
+// https://firebase.google.com/docs/auth/admin/verify-id-tokens
 export async function verifyIdToken(idToken: string) {
   const admin = getAdmin();
   return await admin.auth().verifyIdToken(idToken);

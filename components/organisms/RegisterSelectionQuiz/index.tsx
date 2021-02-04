@@ -8,7 +8,7 @@ type FormValues = {
 };
 
 export default function RegisterSelectionQuiz() {
-  const { register, handleSubmit, errors, clearErrors } = useForm<FormValues>();
+  const { register, handleSubmit, errors } = useForm<FormValues>();
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>((data) => {
     console.log(data);

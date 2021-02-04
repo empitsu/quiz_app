@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+// import useSWR, { mutate } from "swr";
 import { SortQuizOption } from "../SortQuizOption";
+import { useRouter } from "next/router";
+import { postQuiz } from "../../../utils/postQuiz";
 
 type FormValues = {
   sortQuizTitle: string;
@@ -8,6 +11,7 @@ type FormValues = {
 };
 
 export function RegisterSortQuiz() {
+  const router = useRouter();
   const { register, handleSubmit, errors, clearErrors } = useForm<FormValues>();
 
   // 表示する選択肢のidリスト
@@ -19,9 +23,33 @@ export function RegisterSortQuiz() {
     clearErrors("sortQuizOption"); // always clear errors when there is add action.
   }, [clearErrors]);
 
-  const onSubmit = useCallback<SubmitHandler<FormValues>>((data) => {
-    console.log(data);
-  }, []);
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    async (data) => {
+      console.log(data);
+
+      const options = data.sortQuizOption
+        .filter((element) => element !== undefined)
+        .map((text, index) => {
+          return {
+            optionId: index,
+            text: text,
+          };
+        });
+
+      try {
+        await postQuiz({
+          type: "sort",
+          title: data.sortQuizTitle,
+          options: options,
+        });
+        window.alert(`クイズを登録しました。`);
+        router.reload();
+      } catch (error) {
+        window.alert(`エラーが発生しました。${error}`);
+      }
+    },
+    [router]
+  );
 
   const removeOption = useCallback(
     (optionId: number) => () => {

@@ -23,13 +23,7 @@ type FormValues = {
 };
 
 export default function SignUp() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    errors,
-    clearErrors,
-  } = useForm<FormValues>();
+  const { register, handleSubmit, watch, errors } = useForm<FormValues>();
 
   const [user, loadingForAuth, authError] = useAuthState(getAuth());
   const router = useRouter();
