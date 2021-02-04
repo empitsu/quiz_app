@@ -1,18 +1,48 @@
+import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { postQuiz } from "../../../../utils/postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
 
 type FormValues = {
   selectionQuizTitle: string;
   selectionQuizOption: string[];
+  selectionQuizCorrectAnswer: string;
 };
 
 export default function RegisterSelectionQuiz() {
+  const router = useRouter();
+
   const { register, handleSubmit, errors } = useForm<FormValues>();
 
-  const onSubmit = useCallback<SubmitHandler<FormValues>>((data) => {
-    console.log(data);
-  }, []);
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    async (data) => {
+      console.log(data);
+
+      const options = data.selectionQuizOption
+        .filter((element) => element !== undefined)
+        .map((text, index) => {
+          return {
+            optionId: index + 1,
+            text: text,
+          };
+        });
+
+      try {
+        await postQuiz({
+          type: "selection",
+          title: data.selectionQuizTitle,
+          correctOptionId: Number(data.selectionQuizCorrectAnswer),
+          options: options,
+        });
+        window.alert(`クイズを登録しました。`);
+        router.reload();
+      } catch (error) {
+        window.alert(`エラーが発生しました。${error}`);
+      }
+    },
+    [router]
+  );
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="register-quiz-title">問題文</label>

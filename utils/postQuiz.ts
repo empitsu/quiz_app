@@ -1,13 +1,21 @@
 import { getApp } from "./firebaseHelpers";
 
-type PostData = {
-  type: "sort" | "selection";
-  title: string;
-  options: {
-    optionId: number;
-    text: string;
-  }[];
+type Option = {
+  optionId: number;
+  text: string;
 };
+type PostData =
+  | {
+      type: "sort";
+      title: string;
+      options: Option[];
+    }
+  | {
+      type: "selection";
+      title: string;
+      correctOptionId: number;
+      options: Option[];
+    };
 // todo: 永続化層は切り出す
 
 export async function postQuiz(json: PostData) {
