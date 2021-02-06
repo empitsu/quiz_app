@@ -1,0 +1,15 @@
+type Option = {
+  optionId: number;
+  originalIndex: number;
+  text: string;
+};
+
+export type SortableOptionsSet = {
+  selectedOptions: Option[];
+  restOptions: Option[];
+};
+
+export const sortableOptionsSet: SortableOptionsSet = {
+  selectedOptions: [],
+  restOptions: [],
+};

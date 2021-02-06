@@ -18,7 +18,6 @@ type PostData =
       options: Option[];
     };
 
-// TODO: ログインしてなかったらログイン画面に飛ばす。
 // TODO:永続化層へアクセスする処理はapiで行う
 export async function postQuiz(json: PostData) {
   // todo: call api for post and cookie for auth
