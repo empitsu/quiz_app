@@ -1,10 +1,12 @@
 import Head from "next/head";
 import { ChangeEventHandler, useCallback, useState } from "react";
 import Layout from "../../components/Layout";
-import RegisterSelectionQuiz from "../../components/organisms/RegisterSelectionQuiz";
-import { RegisterSortQuiz } from "../../components/organisms/RegisterSortQuiz";
+import RegisterSelectionQuiz from "../../components/organisms/Register/RegisterSelectionQuiz";
+import { RegisterSortQuiz } from "../../components/organisms/Register/RegisterSortQuiz";
 
 type QuizType = "selection" | "sort";
+
+// TODO: ログインしてなかったらログイン画面に飛ばす。
 
 export default function Register() {
   const [quizType, setQuizType] = useState<QuizType>("selection");

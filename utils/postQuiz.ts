@@ -1,5 +1,6 @@
 import { getApp } from "./firebaseHelpers";
 
+// todo:共通化
 type Option = {
   optionId: number;
   text: string;
@@ -16,8 +17,9 @@ type PostData =
       correctOptionId: number;
       options: Option[];
     };
-// todo: 永続化層は切り出す
 
+// TODO: ログインしてなかったらログイン画面に飛ばす。
+// TODO:永続化層へアクセスする処理はapiで行う
 export async function postQuiz(json: PostData) {
   // todo: call api for post and cookie for auth
   // https://developer.mozilla.org/ja/docs/Web/API/Document/cookie
@@ -25,7 +27,7 @@ export async function postQuiz(json: PostData) {
   // mutate("/api/quizzes");
   const auth = getApp().auth();
   if (!auth || auth.currentUser === null) {
-    return new Error("ログインされていません");
+    throw new Error("ログインされていません");
   }
 
   const db = getApp().firestore();
@@ -37,6 +39,6 @@ export async function postQuiz(json: PostData) {
     const res = await docRef.doc().set(json);
     return res;
   } catch (error) {
-    return new Error(error);
+    throw new Error(error);
   }
 }

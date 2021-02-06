@@ -12,6 +12,7 @@ export default function MyPageTop() {
 
       <Link href="/mypage/register">クイズを登録する</Link>
       <Link href="/mypage/answer">クイズに回答する</Link>
+      <p>ランダムで5問まで回答できます。</p>
     </Layout>
   );
 }
