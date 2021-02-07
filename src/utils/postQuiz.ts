@@ -35,8 +35,7 @@ export async function postQuiz(json: PostData) {
     .doc(auth.currentUser.uid)
     .collection("quizzes");
   try {
-    const res = await docRef.doc().set(json);
-    return res;
+    await docRef.doc().set(json);
   } catch (error) {
     throw new Error(error);
   }

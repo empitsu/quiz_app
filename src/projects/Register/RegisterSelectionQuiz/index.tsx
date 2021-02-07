@@ -52,9 +52,14 @@ export default function RegisterSelectionQuiz() {
         name="selectionQuizTitle"
         placeholder="問題文を入力してください"
         ref={register({
-          required: true,
+          required: "問題文を入力してください",
         })}
       ></input>
+      {errors.selectionQuizTitle && (
+        <p role="alert" aria-label="問題文エラー">
+          {errors.selectionQuizTitle.message}
+        </p>
+      )}
       <label htmlFor="selectionQuizCorrectAnswer">正答</label>
 
       {[...Array(4)].map((_, index) => {
@@ -63,18 +68,25 @@ export default function RegisterSelectionQuiz() {
           <SelectionQuizOption
             key={optionId}
             optionId={optionId}
-            ref={register({
-              required: true,
+            radioRef={register({
+              required: "正答を選択してください。",
             })}
-            isError={
-              !!(
-                errors.selectionQuizOption &&
-                errors.selectionQuizOption[optionId]
-              )
+            ref={register({
+              required: "入力してください",
+            })}
+            errorMessage={
+              errors.selectionQuizOption && errors.selectionQuizOption[optionId]
+                ? errors.selectionQuizOption[optionId]?.message
+                : null
             }
           />
         );
       })}
+      {errors.selectionQuizCorrectAnswer && (
+        <p role="alert" aria-label="正答選択のエラー">
+          {errors.selectionQuizCorrectAnswer.message}
+        </p>
+      )}
 
       <button type="submit">クイズを登録する</button>
     </form>

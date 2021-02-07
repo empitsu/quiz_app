@@ -2,22 +2,24 @@ import { forwardRef } from "react";
 
 type QuizOptionProps = {
   optionId: number;
-  isError: boolean;
+  errorMessage: string | null | undefined;
+  radioRef: (ref: HTMLInputElement) => void;
 };
 
 export const SelectionQuizOption = forwardRef<
   HTMLInputElement,
   QuizOptionProps
->(({ optionId, isError }, ref) => {
+>(({ optionId, radioRef, errorMessage }, ref) => {
   // nameを`SelectionQuizOption[${optionId}]`にするとsubmit時のdataが配列形式になる
   const fieldName = `selectionQuizOption[${optionId}]`;
   return (
     <>
       <input
         type="radio"
+        id="selectionQuizCorrectAnswer"
         name="selectionQuizCorrectAnswer"
         value={optionId}
-        ref={ref}
+        ref={radioRef}
       ></input>
       <fieldset name={fieldName} key={fieldName}>
         <label htmlFor={fieldName}>{`選択肢${optionId}`}</label>
@@ -25,10 +27,14 @@ export const SelectionQuizOption = forwardRef<
           type="text"
           id={fieldName}
           name={fieldName}
-          placeholder="問題文を入力してください"
+          placeholder="選択肢を入力してください"
           ref={ref}
         ></input>
-        {isError && <p>入力してください。</p>}
+        {errorMessage && (
+          <p role="alert" aria-label={`選択肢${optionId}のエラー`}>
+            {errorMessage}
+          </p>
+        )}
       </fieldset>
     </>
   );
