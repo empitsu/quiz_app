@@ -1,11 +1,10 @@
 import { getApp } from "./firebaseHelpers";
 
-// todo:共通化
 type Option = {
   optionId: number;
   text: string;
 };
-type PostData =
+export type QuizToPost =
   | {
       type: "sort";
       title: string;
@@ -19,7 +18,7 @@ type PostData =
     };
 
 // TODO:永続化層へアクセスする処理はapiで行う
-export async function postQuiz(json: PostData) {
+export async function postQuiz(json: QuizToPost) {
   // todo: call api for post and cookie for auth
   // https://developer.mozilla.org/ja/docs/Web/API/Document/cookie
   // document.cookie = "token=; path=/;samesite=strict;secure";

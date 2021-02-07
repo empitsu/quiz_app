@@ -37,15 +37,14 @@ function Result({
 }
 
 // todo:共通化
-type Option = {
-  optionId: number;
-  text: string;
-};
 type Data =
   | {
       type: "sort";
       title: string;
-      options: Option[];
+      options: {
+        optionId: number;
+        text: string;
+      }[];
     }
   | {
       type: "selection";

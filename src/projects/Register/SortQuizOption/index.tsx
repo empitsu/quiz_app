@@ -4,12 +4,12 @@ type QuizOptionProps = {
   optionId: number;
   isRemovable: boolean;
   isError: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errorMessage: string | null | undefined;
   onRemove: (id: number) => () => void;
 };
 
 export const SortQuizOption = forwardRef<HTMLInputElement, QuizOptionProps>(
-  ({ optionId, onRemove, isError, isRemovable }, ref) => {
+  ({ optionId, onRemove, errorMessage, isRemovable }, ref) => {
     // nameを`sortQuizOption[${optionId}]`にするとsubmit時のdataが配列形式になる
     const fieldName = `sortQuizOption[${optionId}]`;
     return (
@@ -22,7 +22,11 @@ export const SortQuizOption = forwardRef<HTMLInputElement, QuizOptionProps>(
           placeholder="問題文を入力してください"
           ref={ref}
         ></input>
-        {isError && <p>入力してください。</p>}
+        {errorMessage && (
+          <p role="alert" aria-label={`選択肢${optionId}のエラー`}>
+            {errorMessage}
+          </p>
+        )}
         {isRemovable && (
           <button type="button" onClick={onRemove(optionId)}>
             Remove

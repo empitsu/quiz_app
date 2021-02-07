@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { postQuiz } from "../../../utils/postQuiz";
+import { postQuiz, QuizToPost } from "../../../utils/postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
 
 type FormValues = {
@@ -9,6 +9,8 @@ type FormValues = {
   selectionQuizOption: string[];
   selectionQuizCorrectAnswer: string;
 };
+
+export type SelectionQuiz = Extract<QuizToPost, { type: "selection" }>;
 
 export default function RegisterSelectionQuiz() {
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function RegisterSelectionQuiz() {
     async (data) => {
       console.log(data);
 
-      const options = data.selectionQuizOption
+      const options: SelectionQuiz["options"] = data.selectionQuizOption
         .filter((element) => element !== undefined)
         .map((text, index) => {
           return {
@@ -27,14 +29,15 @@ export default function RegisterSelectionQuiz() {
             text: text,
           };
         });
+      const postData: SelectionQuiz = {
+        type: "selection",
+        title: data.selectionQuizTitle,
+        correctOptionId: Number(data.selectionQuizCorrectAnswer),
+        options: options,
+      };
 
       try {
-        await postQuiz({
-          type: "selection",
-          title: data.selectionQuizTitle,
-          correctOptionId: Number(data.selectionQuizCorrectAnswer),
-          options: options,
-        });
+        await postQuiz(postData);
         window.alert(`クイズを登録しました。`);
         router.reload();
       } catch (error) {
