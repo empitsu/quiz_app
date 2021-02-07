@@ -1,11 +1,11 @@
 import { Dispatch, useCallback, useReducer, useState } from "react";
-import { reducer } from "./ducks";
+import { reducer } from "../../../ducks/AnswerSortQuiz";
 import {
   Actions,
   popFromSelectedOptions,
   pushToSelectedOptions,
-} from "./ducks/actions";
-import { SortableOptionsSet } from "./ducks/model";
+} from "../../../ducks/AnswerSortQuiz/actions";
+import { SortableOptionsSet } from "../../../ducks/AnswerSortQuiz/model";
 
 type AnswerQuizProps = {
   title: string;

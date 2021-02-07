@@ -38,7 +38,6 @@ export async function createUserWithEmailAndPassword(
     const errorCode = error.code;
     const errorMessage = error.message;
     throw new Error(errorMessage);
-    console.error("login failed", errorCode, errorMessage);
   }
 }
 
@@ -68,8 +67,7 @@ export async function logout() {
     const user = await firebase.auth().signOut();
     console.log(user);
   } catch (error) {
-    throw new Error(error);
-    console.error("logout failed", error);
+    throw new Error(error.message);
   }
 }
 
