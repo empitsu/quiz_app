@@ -1,7 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
-import { LayoutForMypage } from "../../src/layouts/LayoutForMypage";
 import Register from "../../src/pages/mypage/register";
-import RegisterSelectionQuiz from "../../src/projects/Register/RegisterSelectionQuiz";
+import { RegisterSelectionQuiz } from "../../src/projects/Register/RegisterSelectionQuiz";
 import { RegisterSortQuiz } from "../../src/projects/Register/RegisterSortQuiz";
 
 jest.mock("../../src/layouts/LayoutForMypage", () => {

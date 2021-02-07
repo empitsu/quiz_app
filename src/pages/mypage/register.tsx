@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { ChangeEventHandler, useCallback, useState } from "react";
 import { LayoutForMypage } from "../../layouts/LayoutForMypage";
-import RegisterSelectionQuiz from "../../projects/Register/RegisterSelectionQuiz";
+import { RegisterSelectionQuiz } from "../../projects/Register/RegisterSelectionQuiz";
 import { RegisterSortQuiz } from "../../projects/Register/RegisterSortQuiz";
 
 type QuizType = "selection" | "sort";

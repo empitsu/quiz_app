@@ -12,7 +12,7 @@ type FormValues = {
 
 export type SelectionQuiz = Extract<QuizToPost, { type: "selection" }>;
 
-export default function RegisterSelectionQuiz() {
+export function RegisterSelectionQuiz() {
   const router = useRouter();
 
   const { register, handleSubmit, errors } = useForm<FormValues>();

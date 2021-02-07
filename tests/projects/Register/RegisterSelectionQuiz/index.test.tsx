@@ -1,5 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
-import RegisterSelectionQuiz, {
+import {
+  RegisterSelectionQuiz,
   SelectionQuiz,
 } from "../../../../src/projects/Register/RegisterSelectionQuiz";
 import { delayEventLoop } from "../../../delayEventLoop";
