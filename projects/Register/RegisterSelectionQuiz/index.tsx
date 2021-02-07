@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { postQuiz } from "../../../../utils/postQuiz";
+import { postQuiz } from "../../../utils/postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
 
 type FormValues = {

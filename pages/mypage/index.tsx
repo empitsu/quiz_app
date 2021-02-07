@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Head from "next/head";
-import Layout from "../../components/Layout";
+import { LayoutForMypage } from "../../projects/Layouts/LayoutForMypage";
 
 export default function MyPageTop() {
   return (
-    <Layout>
+    <LayoutForMypage>
       <Head>
         <title>MyPageTop</title>
       </Head>
@@ -13,6 +13,6 @@ export default function MyPageTop() {
       <Link href="/mypage/register">クイズを登録する</Link>
       <Link href="/mypage/answer">クイズに回答する</Link>
       <p>ランダムで5問まで回答できます。</p>
-    </Layout>
+    </LayoutForMypage>
   );
 }

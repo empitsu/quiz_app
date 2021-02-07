@@ -5,11 +5,11 @@ import Link from "next/link";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 
-import Layout from "../../components/Layout";
+import { LayoutForMypage } from "../../projects/Layouts/LayoutForMypage";
 import { getQuizzes } from "../../utils/getQuizzes";
-import { AnswerSelectionQuiz } from "../../components/organisms/Answer/AnswerSelectionQuiz";
+import { AnswerSelectionQuiz } from "../../projects/Answer/AnswerSelectionQuiz";
 import { shuffleArray } from "../../utils/shuffleArray";
-import { AnswerSortQuiz } from "../../components/organisms/Answer/AnswerSortQuiz";
+import { AnswerSortQuiz } from "../../projects/Answer/AnswerSortQuiz";
 import { useRouter } from "next/router";
 
 function Result({
@@ -29,7 +29,7 @@ function Result({
         {quizzesLength}問中{correctAnswersLength}問正解しました。
       </p>
       <button onClick={onClickRetryBtn}>もう一度挑戦</button>
-      <Link href="/mypage/top">
+      <Link href="/mypage/">
         <button>TOPに戻る</button>
       </Link>
     </div>
@@ -84,7 +84,7 @@ export default function Answer() {
     })();
   }, []);
   return (
-    <Layout>
+    <LayoutForMypage>
       <Head>
         <title>Answer</title>
       </Head>
@@ -133,6 +133,6 @@ export default function Answer() {
           quizzesLength={docs.length}
         ></Result>
       )}
-    </Layout>
+    </LayoutForMypage>
   );
 }

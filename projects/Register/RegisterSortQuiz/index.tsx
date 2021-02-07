@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 // import useSWR, { mutate } from "swr";
 import { SortQuizOption } from "../SortQuizOption";
 import { useRouter } from "next/router";
-import { postQuiz } from "../../../../utils/postQuiz";
+import { postQuiz } from "../../../utils/postQuiz";
 
 type FormValues = {
   sortQuizTitle: string;

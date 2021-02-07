@@ -25,7 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     if (user && !loadingForAuth) {
-      router.push("/mypage/top");
+      router.push("/mypage/");
     }
   }, [loadingForAuth, router, user]);
 
@@ -38,7 +38,7 @@ export default function Home() {
         data.userPassword
       );
       if (user) {
-        router.push("/mypage/top");
+        router.push("/mypage/");
       }
     },
     [router]

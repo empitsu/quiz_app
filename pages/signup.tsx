@@ -32,7 +32,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (user && !loadingForAuth) {
-      router.push("/mypage/top");
+      router.push("/mypage/");
     }
   }, [loadingForAuth, router, user]);
 
@@ -45,7 +45,7 @@ export default function SignUp() {
         data.userPassword
       );
       if (user) {
-        router.push("/mypage/top");
+        router.push("/mypage/");
       }
     },
     [router]

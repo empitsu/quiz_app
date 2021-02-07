@@ -2,13 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth, logout } from "../utils/firebaseHelpers";
+import { getAuth, logout } from "../../../utils/firebaseHelpers";
 
 type Props = {
   children: React.ReactNode;
 };
 
-function Layout({ children }: Props) {
+export function LayoutForMypage({ children }: Props) {
   const router = useRouter();
 
   const [_user, loadingForAuth, authError] = useAuthState(getAuth());
@@ -21,16 +21,16 @@ function Layout({ children }: Props) {
 
   return (
     <>
-      <nav>
-        <Link href="/mypage/top">もどる</Link>
-        <button onClick={onClickLogout} disabled={loadingForAuth}>
-          ログアウト
-        </button>
-        <p>{authError}</p>
-      </nav>
-      <div>{children}</div>
+      <header>
+        <nav>
+          <Link href="/mypage/">もどる</Link>
+          <button onClick={onClickLogout} disabled={loadingForAuth}>
+            ログアウト
+          </button>
+          <p>{authError}</p>
+        </nav>
+      </header>
+      <main>{children}</main>
     </>
   );
 }
-
-export default Layout;
