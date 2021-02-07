@@ -19,7 +19,7 @@ export default function Register() {
   );
 
   return (
-    <LayoutForMypage>
+    <LayoutForMypage urlToRedirectWhenNotLoggedIn="/">
       <Head>
         <title>Register</title>
       </Head>

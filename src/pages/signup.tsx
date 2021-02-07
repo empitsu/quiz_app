@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-} from "../utils/firebaseHelpers";
-import { useCallback, useEffect, useRef } from "react";
+import { createUserWithEmailAndPassword } from "../utils/firebaseHelpers";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 
 import { SubmitHandler, useForm } from "react-hook-form";
+import { LayoutForNotLoggedIn } from "../layouts/LayoutForNotLoggedIn";
 
 const Title = styled.h1`
   font-size: 50px;
@@ -23,35 +19,21 @@ type FormValues = {
 };
 
 export default function SignUp() {
-  const { register, handleSubmit, watch, errors } = useForm<FormValues>();
+  const { register, handleSubmit, getValues, errors } = useForm<FormValues>();
 
-  const [user, loadingForAuth, authError] = useAuthState(getAuth());
-  const router = useRouter();
-  const password = useRef({});
-  password.current = watch("userPasswordRepeat", "");
+  const [loggedInError, setLoggedInError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    if (user && !loadingForAuth) {
-      router.push("/mypage/");
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(async (data) => {
+    console.log(data);
+
+    try {
+      await createUserWithEmailAndPassword(data.userEmail, data.userPassword);
+    } catch (error) {
+      setLoggedInError(error);
     }
-  }, [loadingForAuth, router, user]);
-
-  const onSubmit = useCallback<SubmitHandler<FormValues>>(
-    async (data) => {
-      console.log(data);
-
-      const user = await createUserWithEmailAndPassword(
-        data.userEmail,
-        data.userPassword
-      );
-      if (user) {
-        router.push("/mypage/");
-      }
-    },
-    [router]
-  );
+  }, []);
   return (
-    <>
+    <LayoutForNotLoggedIn urlToRedirectWhenLoggedIn="/mypage/">
       <Head>
         <title>新規会員登録</title>
       </Head>
@@ -63,13 +45,10 @@ export default function SignUp() {
           name="userEmail"
           placeholder="example@example.com"
           ref={register({
-            required: true,
+            required: "メールアドレスを入力してください。",
           })}
         ></input>
-        {errors.userEmail?.types?.required && (
-          <p>メールアドレスを入力してください。</p>
-        )}
-        <p>パスワードは6文字以上で設定してください。</p>
+        {errors.userEmail && <p>{errors.userEmail.message}</p>}
         <input
           type="password"
           name="userPassword"
@@ -89,8 +68,10 @@ export default function SignUp() {
           name="userPasswordRepeat"
           placeholder="確認のためパスワードを再度入力してください。"
           ref={register({
+            required: "入力してください。",
             validate: (value) => {
-              return value === password.current || "パスワードが一致しません。";
+              const { userPassword } = getValues();
+              return value === userPassword || "パスワードが一致しません。";
             },
           })}
         ></input>
@@ -98,12 +79,10 @@ export default function SignUp() {
           <p>{errors.userPasswordRepeat.message}</p>
         )}
 
-        <button type="submit" disabled={loadingForAuth}>
-          登録
-        </button>
-        {authError && <p>authError</p>}
+        <button type="submit">登録</button>
+        {loggedInError && <p>{loggedInError.message}</p>}
       </form>
       <Link href="/">ログイン画面へ戻る</Link>
-    </>
+    </LayoutForNotLoggedIn>
   );
 }

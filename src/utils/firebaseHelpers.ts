@@ -37,8 +37,8 @@ export async function createUserWithEmailAndPassword(
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
+    throw new Error(errorMessage);
     console.error("login failed", errorCode, errorMessage);
-    return null;
   }
 }
 
@@ -55,41 +55,10 @@ export async function loginWithEmailAndPassword(
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
+    throw new Error(errorMessage);
     console.error("login failed", errorCode, errorMessage);
-    return null;
   }
 }
-
-/* export async function loginAnonymously(): Promise<firebase.auth.UserCredential | null> {
-  try {
-    const user = await firebase.auth().signInAnonymously();
-    console.log(user);
-    return user;
-  } catch (error) {
-    console.error("login failed", error);
-    return null;
-  }
-}
-
-export async function loginWithGithub() {
-  const provider = new firebase.auth.GithubAuthProvider();
-  try {
-    const user = await firebase.auth().signInWithPopup(provider);
-    console.log(user);
-  } catch (error) {
-    console.error("login failed", error);
-  }
-}
-
-export async function linkWithGithub() {
-  const provider = new firebase.auth.GithubAuthProvider();
-  try {
-    const user = await firebase.auth().currentUser?.linkWithPopup(provider);
-    console.log(user);
-  } catch (error) {
-    console.error("login failed", error);
-  }
-} */
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -99,6 +68,7 @@ export async function logout() {
     const user = await firebase.auth().signOut();
     console.log(user);
   } catch (error) {
+    throw new Error(error);
     console.error("logout failed", error);
   }
 }

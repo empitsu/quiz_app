@@ -4,7 +4,7 @@ import { LayoutForMypage } from "../../layouts/LayoutForMypage";
 
 export default function MyPageTop() {
   return (
-    <LayoutForMypage>
+    <LayoutForMypage urlToRedirectWhenNotLoggedIn="/">
       <Head>
         <title>MyPageTop</title>
       </Head>

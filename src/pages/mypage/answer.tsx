@@ -84,7 +84,7 @@ export default function Answer() {
     })();
   }, []);
   return (
-    <LayoutForMypage>
+    <LayoutForMypage urlToRedirectWhenNotLoggedIn="/">
       <Head>
         <title>Answer</title>
       </Head>
