@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getAuth, logout } from "../../../utils/firebaseHelpers";
+import { getAuth, logout } from "../../utils/firebaseHelpers";
 
 type Props = {
   children: React.ReactNode;

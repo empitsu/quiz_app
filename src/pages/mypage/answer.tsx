@@ -5,7 +5,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 
-import { LayoutForMypage } from "../../projects/Layouts/LayoutForMypage";
+import { LayoutForMypage } from "../../layouts/LayoutForMypage";
 import { getQuizzes } from "../../utils/getQuizzes";
 import { AnswerSelectionQuiz } from "../../projects/Answer/AnswerSelectionQuiz";
 import { shuffleArray } from "../../utils/shuffleArray";

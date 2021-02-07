@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
-import { LayoutForMypage } from "../../projects/Layouts/LayoutForMypage";
+import { LayoutForMypage } from "../../layouts/LayoutForMypage";
 
 export default function MyPageTop() {
   return (
