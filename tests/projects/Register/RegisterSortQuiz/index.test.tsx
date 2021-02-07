@@ -70,8 +70,8 @@ describe("RegisterSortQuiz", () => {
     });
   });
   // SortQuizOption
-  describe("An additional input for an option", () => {
-    it("should be added when `Add` button is clicked", async () => {
+  describe("`Add` button", () => {
+    it("should show an additional field", async () => {
       const { getByLabelText, getByText } = render(<RegisterSortQuiz />);
       fireEvent.click(getByText("追加する"));
       await delayEventLoop();
@@ -94,6 +94,11 @@ describe("RegisterSortQuiz", () => {
       await delayEventLoop();
 
       expect(queryByLabelText("選択肢2")).not.toBeInTheDocument();
+    });
+    it("should not be displayed when the number of options is only one", () => {
+      const { queryByText } = render(<RegisterSortQuiz />);
+      const removeBtn = queryByText("Remove");
+      expect(removeBtn).not.toBeInTheDocument();
     });
   });
 
