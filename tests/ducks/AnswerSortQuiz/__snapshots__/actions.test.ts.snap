@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Actions of AnswerSortQuiz popFromSelectedOptions() should create an action to remove from selected options 1`] = `
+Object {
+  "payload": Object {
+    "optionId": 0,
+    "originalIndex": 1,
+    "text": "test",
+  },
+  "type": "POP_FROM_SELECTED_OPTIONS",
+}
+`;
+
+exports[`Actions of AnswerSortQuiz pushToSelectedOptions() should create an action to push to selected options 1`] = `
+Object {
+  "payload": Object {
+    "optionId": 0,
+    "originalIndex": 1,
+    "text": "test",
+  },
+  "type": "PUSH_T0_SELECTED_OPTIONS",
+}
+`;
+
+exports[`Actions of AnswerSortQuiz reset() should create an action to reset 1`] = `
+Object {
+  "payload": Array [
+    Object {
+      "optionId": 0,
+      "originalIndex": 1,
+      "text": "test",
+    },
+  ],
+  "type": "RESET",
+}
+`;

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sortableOptionsSet should create a empty model 1`] = `
+Object {
+  "restOptions": Array [],
+  "selectedOptions": Array [],
+}
+`;
