@@ -6,8 +6,6 @@ import { RegisterSortQuiz } from "../../projects/Register/RegisterSortQuiz";
 
 type QuizType = "selection" | "sort";
 
-// TODO: ログインしてなかったらログイン画面に飛ばす。
-
 export default function Register() {
   const [quizType, setQuizType] = useState<QuizType>("selection");
 
