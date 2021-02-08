@@ -1,4 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
+import { AnswerPropStore } from "../../../contexts/AnswerProps";
+import { incrementCurrentQuiz } from "../../../ducks/Answer";
 
 // todo:共通化
 type Option = {
@@ -10,7 +12,6 @@ type AnswerQuizProps = {
   title: string;
   correctOptionId: number;
   options: Option[];
-  onAnswer: (isCorrect: boolean) => void;
 };
 
 type ButtonToAnswerProps = {
@@ -41,10 +42,11 @@ function ButtonToAnswer({
 
 type ResultProps = {
   isCorrect: boolean | null;
-  onAnswer: (isCorrect: boolean) => void;
 };
 
-function Result({ isCorrect, onAnswer }: ResultProps) {
+function Result({ isCorrect }: ResultProps) {
+  const { dispatch } = useContext(AnswerPropStore);
+
   if (isCorrect === null) return null;
   if (isCorrect) {
     return (
@@ -52,7 +54,7 @@ function Result({ isCorrect, onAnswer }: ResultProps) {
         <p>正解！</p>
         <button
           onClick={() => {
-            onAnswer(true);
+            dispatch(incrementCurrentQuiz(true));
           }}
         >
           次へ
@@ -65,7 +67,7 @@ function Result({ isCorrect, onAnswer }: ResultProps) {
       <p>不正解！</p>
       <button
         onClick={() => {
-          onAnswer(false);
+          dispatch(incrementCurrentQuiz(false));
         }}
       >
         次へ
@@ -78,7 +80,6 @@ export function AnswerSelectionQuiz({
   title,
   options,
   correctOptionId,
-  onAnswer,
 }: AnswerQuizProps) {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const onAnswerCorrectly = useCallback(() => {
@@ -105,7 +106,7 @@ export function AnswerSelectionQuiz({
           );
         })}
       </ul>
-      <Result isCorrect={isCorrect} onAnswer={onAnswer}></Result>
+      <Result isCorrect={isCorrect}></Result>
     </div>
   );
 }

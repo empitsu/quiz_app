@@ -1,4 +1,6 @@
-import { Dispatch, useCallback, useReducer, useState } from "react";
+import { Dispatch, useCallback, useContext, useReducer, useState } from "react";
+import { AnswerPropStore } from "../../../contexts/AnswerProps";
+import { incrementCurrentQuiz } from "../../../ducks/Answer";
 import { reducer } from "../../../ducks/AnswerSortQuiz";
 import {
   Actions,
@@ -10,7 +12,6 @@ import { SortableOptionsSet } from "../../../ducks/AnswerSortQuiz/model";
 type AnswerQuizProps = {
   title: string;
   options: SortableOptionsSet["restOptions"];
-  onAnswer: (isCorrect: boolean) => void;
 };
 
 type EachOptionButtonProps = {
@@ -45,10 +46,11 @@ function SelectedOption({ option, dispatch }: SelectedOptionProps) {
 
 type ResultProps = {
   isCorrect: boolean | null;
-  onAnswer: (isCorrect: boolean) => void;
 };
 
-function Result({ isCorrect, onAnswer }: ResultProps) {
+function Result({ isCorrect }: ResultProps) {
+  const { dispatch } = useContext(AnswerPropStore);
+
   if (isCorrect === null) return null;
   if (isCorrect) {
     return (
@@ -56,7 +58,7 @@ function Result({ isCorrect, onAnswer }: ResultProps) {
         <p>正解！</p>
         <button
           onClick={() => {
-            onAnswer(true);
+            dispatch(incrementCurrentQuiz(true));
           }}
         >
           次へ
@@ -69,7 +71,7 @@ function Result({ isCorrect, onAnswer }: ResultProps) {
       <p>不正解！</p>
       <button
         onClick={() => {
-          onAnswer(false);
+          dispatch(incrementCurrentQuiz(false));
         }}
       >
         次へ
@@ -78,7 +80,7 @@ function Result({ isCorrect, onAnswer }: ResultProps) {
   );
 }
 
-export function AnswerSortQuiz({ title, options, onAnswer }: AnswerQuizProps) {
+export function AnswerSortQuiz({ title, options }: AnswerQuizProps) {
   const [state, dispatch] = useReducer(reducer, {
     selectedOptions: [],
     restOptions: [...options],
@@ -121,7 +123,7 @@ export function AnswerSortQuiz({ title, options, onAnswer }: AnswerQuizProps) {
         })}
       </ul>
       <button onClick={onClickAnswerBtn}>これで回答する</button>
-      <Result isCorrect={isCorrect} onAnswer={onAnswer}></Result>
+      <Result isCorrect={isCorrect}></Result>
     </div>
   );
 }
