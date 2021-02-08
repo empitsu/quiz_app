@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from "react";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
-import { incrementCurrentQuiz } from "../../../ducks/Answer";
+import { incrementCurrentQuiz } from "../../../ducks/AnswerTemplate";
 
 // todo:共通化
 type Option = {

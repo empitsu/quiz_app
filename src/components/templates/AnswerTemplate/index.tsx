@@ -11,6 +11,7 @@ import { AnswerSortQuiz } from "../../../projects/Answer/AnswerSortQuiz";
 import { useRouter } from "next/router";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
 
+// TODO: quizzesLengthはcontextから取得するようにする。
 function Result({ quizzesLength }: { quizzesLength: number }) {
   const { state } = useContext(AnswerPropStore);
 
@@ -31,6 +32,7 @@ function Result({ quizzesLength }: { quizzesLength: number }) {
   );
 }
 
+// TODO: quiz dataやidもcontextに保存する。テストが書きやすくなるため。
 function AnswerSelectionOrSortQuiz({
   quizId,
   quiz,
@@ -97,6 +99,7 @@ export default function AnswerTemplate() {
     isMountedRef.current = true;
     (async () => {
       try {
+        // TODO: useEffectごとカスタムフックス化。hooksの中でcontextに保存するとテストも書きやすくなる。
         const docs = await getQuizzes();
         setDocs(docs);
       } catch (error) {

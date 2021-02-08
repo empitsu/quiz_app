@@ -1,6 +1,6 @@
 import AnswerTemplate from "../../components/templates/AnswerTemplate";
 import { AnswerPropsProvider } from "../../contexts/AnswerProps";
-import { answerProps } from "../../ducks/Answer";
+import { answerProps } from "../../ducks/AnswerTemplate";
 import { LayoutForMypage } from "../../layouts/LayoutForMypage";
 import Head from "next/head";
 

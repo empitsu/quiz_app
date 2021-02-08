@@ -1,6 +1,6 @@
 import { Dispatch, useCallback, useContext, useReducer, useState } from "react";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
-import { incrementCurrentQuiz } from "../../../ducks/Answer";
+import { incrementCurrentQuiz } from "../../../ducks/AnswerTemplate";
 import { reducer } from "../../../ducks/AnswerSortQuiz";
 import {
   Actions,

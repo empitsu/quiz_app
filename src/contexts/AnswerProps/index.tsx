@@ -5,8 +5,8 @@ import {
   ReducerAction,
   useReducer,
 } from "react";
-import { answerProps, reducer } from "../../ducks/Answer";
-import { AnswerProps } from "../../ducks/Answer/model";
+import { answerProps, reducer } from "../../ducks/AnswerTemplate";
+import { AnswerProps } from "../../ducks/AnswerTemplate/model";
 
 export const AnswerPropStore = createContext({
   state: answerProps,

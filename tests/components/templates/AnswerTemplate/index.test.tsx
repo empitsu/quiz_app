@@ -10,15 +10,9 @@ import AnswerTemplate, {
   QuizData,
 } from "../../../../src/components/templates/AnswerTemplate";
 import { AnswerPropsProvider } from "../../../../src/contexts/AnswerProps";
-import { AnswerProps } from "../../../../src/ducks/Answer/model";
+import { AnswerProps } from "../../../../src/ducks/AnswerTemplate/model";
 import { NextRouter } from "next/router";
 import { RouterMock } from "../../../RouterMock";
-
-jest.mock("../../../../src/layouts/LayoutForMypage", () => {
-  return {
-    LayoutForMypage: jest.fn(({ children }) => <div>{children}</div>),
-  };
-});
 
 jest.mock("../../../../src/projects/Answer/AnswerSortQuiz", () => {
   return {
@@ -33,8 +27,6 @@ jest.mock("../../../../src/projects/Answer/AnswerSelectionQuiz", () => {
 });
 
 jest.mock("../../../../src/utils/getQuizzes");
-
-// https://www.debuggr.io/react-update-unmounted-component/#:~:text=Warning%3A%20Can't%20perform%20a,in%20a%20useEffect%20cleanup%20function.
 
 beforeEach(() => {
   jest.resetModules();
