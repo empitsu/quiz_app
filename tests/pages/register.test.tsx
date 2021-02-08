@@ -9,7 +9,9 @@ jest.mock("../../src/layouts/LayoutForMypage", () => {
   };
 });
 jest.mock("../../src/projects/Register/RegisterSelectionQuiz", () => {
-  return jest.fn(() => <></>);
+  return {
+    RegisterSelectionQuiz: jest.fn(() => <></>),
+  };
 });
 jest.mock("../../src/projects/Register/RegisterSortQuiz", () => {
   return {
