@@ -6,11 +6,7 @@ import Head from "next/head";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LayoutForNotLoggedIn } from "../layouts/LayoutForNotLoggedIn";
-
-const Title = styled.h1`
-  font-size: 50px;
-  color: ${({ theme }) => theme.colors.primary};
-`;
+import { Heading } from "../components/atoms/Heading";
 
 type FormValues = {
   userEmail: string;
@@ -37,7 +33,7 @@ export default function SignUp() {
       <Head>
         <title>新規会員登録</title>
       </Head>
-      <Title>新規会員登録</Title>
+      <Heading styleLevel="h2">新規会員登録</Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input

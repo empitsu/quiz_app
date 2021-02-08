@@ -3,68 +3,13 @@ import { loginWithEmailAndPassword } from "../../../utils/firebaseHelpers";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-const StyledTextField = styled.input<{
-  isFullWith: boolean;
-}>`
-  color: ${({ theme }) => theme.palettes.text.primary};
-  width: ${({ isFullWith }) => (isFullWith ? "100%" : "auto")};
-  height: 1.1876em;
-  margin: 0;
-  padding: 18.5px 14px;
-  display: inline-flex;
-  font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.palettes.grey["400"]};
-  border-radius: ${({ theme }) => theme.border.radius};
-  background: none;
-  box-sizing: content-box;
-  letter-spacing: inherit;
-  line-height: 1.1876em;
-  -webkit-tap-highlight-color: transparent;
-  :focus {
-    border-color: ${({ theme }) => theme.palettes.primary.main};
-  }
-`;
-
-const StyledFormItemLabel = styled.label`
-  margin: 0 0 10px 0;
-  display: block;
-`;
-
-const StyledErrorText = styled.p`
-  color: ${({ theme }) => theme.palettes.error.main};
-`;
-
-const StyledFormItemContainer = styled.div`
-  margin: 8px 0;
-`;
-
-const StyledButton = styled.button<{
-  isFullWith: boolean;
-}>`
-  ${({ theme }) => theme.typography.button}
-  cursor: pointer;
-  width: ${({ isFullWith }) => (isFullWith ? "100%" : "auto")};
-  color: ${({ theme }) => theme.palettes.primary.contrastText};
-  background-color: ${({ theme }) => theme.palettes.primary.main};
-  padding: 8px 22px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: ${({ theme }) => theme.border.radius};
-  appearance: none;
-  box-shadow: 0 0.25rem 0 ${({ theme }) => theme.palettes.primary.dark};
-  :hover {
-    opacity: ${({ theme }) => theme.palettes.action.hoverOpacity};
-  }
-`;
-
-const StyledAnchor = styled.a`
-  cursor: pointer;
-  color: ${({ theme }) => theme.palettes.primary.main};
-  :hover {
-    text-decoration: underline;
-  }
-`;
+import { Button } from "../../atoms/Button";
+import { Textfield } from "../../atoms/Textfield";
+import { LinkText } from "../../atoms/LinkText";
+import { FormItemLabel } from "../../atoms/FormItemLabel/index";
+import { FormErrorText } from "../../atoms/FormErrorText";
+import { FormItemWrap } from "../../atoms/FormItemWrap";
+import { Heading } from "../../atoms/Heading";
 
 const StyledNarrowSection = styled.section`
   max-width: 444px;
@@ -75,11 +20,6 @@ const StyledNarrowSection = styled.section`
 const StyledLogoH1 = styled.h1`
   ${({ theme }) => theme.typography.h1}
   text-align: center;
-`;
-
-const StyledPageTitleH1 = styled.h1`
-  text-align: center;
-  ${({ theme }) => theme.typography.h2}
 `;
 
 type FormValues = {
@@ -105,13 +45,11 @@ export function IndexTemplate() {
     <div>
       <StyledLogoH1>Simple Quiz Maker</StyledLogoH1>
       <StyledNarrowSection>
-        <StyledPageTitleH1>ログイン</StyledPageTitleH1>
+        <Heading styleLevel="h2">ログイン</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <StyledFormItemContainer>
-            <StyledFormItemLabel htmlFor="userEmail">
-              メールアドレス
-            </StyledFormItemLabel>
-            <StyledTextField
+          <FormItemWrap>
+            <FormItemLabel htmlFor="userEmail">メールアドレス</FormItemLabel>
+            <Textfield
               isFullWidth
               type="text"
               id="userEmail"
@@ -122,17 +60,15 @@ export function IndexTemplate() {
               })}
             />
             {errors.userEmail && (
-              <StyledErrorText role="alert" aria-label="メールアドレスエラー">
+              <FormErrorText role="alert" aria-label="メールアドレスエラー">
                 {errors.userEmail.message}
-              </StyledErrorText>
+              </FormErrorText>
             )}
-          </StyledFormItemContainer>
+          </FormItemWrap>
 
-          <StyledFormItemContainer>
-            <StyledFormItemLabel htmlFor="userPassword">
-              パスワード
-            </StyledFormItemLabel>
-            <StyledTextField
+          <FormItemWrap>
+            <FormItemLabel htmlFor="userPassword">パスワード</FormItemLabel>
+            <Textfield
               isFullWidth
               type="password"
               name="userPassword"
@@ -145,26 +81,26 @@ export function IndexTemplate() {
                   message: "パスワードは6文字以上です。",
                 },
               })}
-            ></StyledTextField>
+            ></Textfield>
             {errors.userPassword && (
-              <StyledErrorText role="alert" aria-label="パスワードエラー">
+              <FormErrorText role="alert" aria-label="パスワードエラー">
                 {errors.userPassword.message}
-              </StyledErrorText>
+              </FormErrorText>
             )}
-          </StyledFormItemContainer>
-          <StyledFormItemContainer>
-            <StyledButton isFullWith type="submit">
+          </FormItemWrap>
+          <FormItemWrap>
+            <Button isFullWidth type="submit">
               ログイン
-            </StyledButton>
+            </Button>
             {loggedInError && (
-              <StyledErrorText role="alert" aria-label="ログインエラー">
+              <FormErrorText role="alert" aria-label="ログインエラー">
                 {loggedInError.message}
-              </StyledErrorText>
+              </FormErrorText>
             )}
-          </StyledFormItemContainer>
+          </FormItemWrap>
         </form>
         <Link href="/signup">
-          <StyledAnchor>アカウント作成はこちら</StyledAnchor>
+          <LinkText>アカウント作成はこちら</LinkText>
         </Link>
       </StyledNarrowSection>
     </div>

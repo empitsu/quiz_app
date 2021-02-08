@@ -1,7 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import styled from "styled-components";
+import { Loading } from "../../components/atoms/Loading";
 import { getAuth } from "../../utils/firebaseHelpers";
+
+const StyledMain = styled.main`
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 type Props = {
   children: React.ReactNode;
@@ -26,15 +35,19 @@ export function LayoutForNotLoggedIn({
   // ログイン情報取得中
   if (loadingForAuth) {
     return (
-      <main>
-        <p>loading...</p>
-      </main>
+      <StyledMain>
+        <Loading></Loading>
+      </StyledMain>
     );
   }
   if (authError) {
-    <main>
-      <p>エラーが発生しました。画面をリロードしてください。</p>
-    </main>;
+    return (
+      <StyledMain>
+        <p role="alert" aria-label="認証エラー">
+          エラーが発生しました。画面をリロードしてください。
+        </p>
+      </StyledMain>
+    );
   }
 
   // 非ログイン時
@@ -48,8 +61,8 @@ export function LayoutForNotLoggedIn({
 
   // ログイン済みだったのでリダイレクト
   return (
-    <main>
-      <p>redirecting...</p>
-    </main>
+    <StyledMain>
+      <Loading></Loading>
+    </StyledMain>
   );
 }
