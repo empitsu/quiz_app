@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Actions of AnswerTemplate incrementCurrentQuiz() should create an action to increment the current quiz index 1`] = `
+Object {
+  "payload": true,
+  "type": "INCREMENT_CURRENT_QUIZ",
+}
+`;

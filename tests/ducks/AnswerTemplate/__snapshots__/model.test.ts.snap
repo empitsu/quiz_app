@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`answerProps should create a empty model 1`] = `
+Object {
+  "correctAnswersLength": 0,
+  "currentQuizIndex": 0,
+}
+`;

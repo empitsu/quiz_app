@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`types of AnswerSortQuiz INCREMENT_CURRENT_QUIZ should be a action type of incrementCurrentQuiz 1`] = `"INCREMENT_CURRENT_QUIZ"`;
