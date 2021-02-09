@@ -1,4 +1,6 @@
 import { useCallback, useContext, useState } from "react";
+import styled from "styled-components";
+import { Button } from "../../../components/atoms/Button";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
 import { incrementCurrentQuiz } from "../../../ducks/AnswerTemplate";
 
@@ -37,7 +39,11 @@ function ButtonToAnswer({
     }
   }, [correctOptionId, onAnswerCorrectly, onMistake, optionId]);
 
-  return <button onClick={onClickAnswer}>{text}</button>;
+  return (
+    <Button isFullWidth color="secondary" onClick={onClickAnswer}>
+      {text}
+    </Button>
+  );
 }
 
 type ResultProps = {
@@ -76,6 +82,21 @@ function Result({ isCorrect }: ResultProps) {
   );
 }
 
+const StyledQuizTitleP = styled.p`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const StyledList = styled.li`
+  list-style: none;
+  margin-bottom: 10px;
+`;
+
+const StyledUl = styled.ul`
+  margin-bottom: 50px;
+  padding: 0;
+`;
+
 export function AnswerSelectionQuiz({
   title,
   options,
@@ -90,11 +111,11 @@ export function AnswerSelectionQuiz({
   }, []);
   return (
     <div>
-      <p>{title}</p>
-      <ul>
+      <StyledQuizTitleP>{title}</StyledQuizTitleP>
+      <StyledUl>
         {options.map((option) => {
           return (
-            <li key={option.optionId}>
+            <StyledList key={option.optionId}>
               <ButtonToAnswer
                 optionId={option.optionId}
                 text={option.text}
@@ -102,10 +123,10 @@ export function AnswerSelectionQuiz({
                 onAnswerCorrectly={onAnswerCorrectly}
                 onMistake={onMistake}
               ></ButtonToAnswer>
-            </li>
+            </StyledList>
           );
         })}
-      </ul>
+      </StyledUl>
       <Result isCorrect={isCorrect}></Result>
     </div>
   );

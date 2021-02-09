@@ -8,10 +8,16 @@ import {
   pushToSelectedOptions,
 } from "../../../ducks/AnswerSortQuiz/actions";
 import { SortableOptionsSet } from "../../../ducks/AnswerSortQuiz/model";
+import { Button } from "../../../components/atoms/Button";
+import styled from "styled-components";
+import { shuffleArray } from "../../../utils/shuffleArray";
 
 type AnswerQuizProps = {
   title: string;
-  options: SortableOptionsSet["restOptions"];
+  options: {
+    optionId: number;
+    text: string;
+  }[];
 };
 
 type EachOptionButtonProps = {
@@ -19,16 +25,33 @@ type EachOptionButtonProps = {
   dispatch: Dispatch<Actions>;
 };
 
+const StyledEmptyOptionP = styled.p`
+  ${({ theme }) => theme.typography.button}
+  color: transparent;
+  background-color: ${({ theme }) => theme.palettes.grey["400"]};
+  padding: 8px 22px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: ${({ theme }) => theme.border.radius};
+  appearance: none;
+  box-shadow: 0 0.25rem 0 ${({ theme }) => theme.palettes.grey["600"]};
+  margin: 0;
+`;
+
 function EachOptionButton({ option, dispatch }: EachOptionButtonProps) {
   const onClickAnswer = useCallback(() => {
     dispatch(pushToSelectedOptions(option));
   }, [dispatch, option]);
 
-  if (option.text === "") {
-    return <p></p>;
+  if (option.selected) {
+    return <StyledEmptyOptionP>{option.text}</StyledEmptyOptionP>;
   }
 
-  return <button onClick={onClickAnswer}>{option.text}</button>;
+  return (
+    <Button color="secondary" onClick={onClickAnswer}>
+      {option.text}
+    </Button>
+  );
 }
 
 type SelectedOptionProps = {
@@ -41,7 +64,11 @@ function SelectedOption({ option, dispatch }: SelectedOptionProps) {
     dispatch(popFromSelectedOptions(option));
   }, [dispatch, option]);
 
-  return <button onClick={onClickSelectedOption}>{option.text}</button>;
+  return (
+    <Button color="secondary" onClick={onClickSelectedOption}>
+      {option.text}
+    </Button>
+  );
 }
 
 type ResultProps = {
@@ -56,34 +83,69 @@ function Result({ isCorrect }: ResultProps) {
     return (
       <>
         <p>正解！</p>
-        <button
+        <Button
+          color="info"
           onClick={() => {
             dispatch(incrementCurrentQuiz(true));
           }}
         >
           次へ
-        </button>
+        </Button>
       </>
     );
   }
   return (
     <>
       <p>不正解！</p>
-      <button
+      <Button
+        color="info"
         onClick={() => {
           dispatch(incrementCurrentQuiz(false));
         }}
       >
         次へ
-      </button>
+      </Button>
     </>
   );
 }
 
+const StyledQuizTitleP = styled.p`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const StyledSelectedOptionUl = styled.ul`
+  min-height: 106px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 0;
+  border-top: 1px solid ${({ theme }) => theme.palettes.grey["600"]};
+  border-bottom: 1px solid ${({ theme }) => theme.palettes.grey["600"]};
+  margin: 30px 0;
+`;
+
+const StyledRestOptionUl = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 30px 0;
+  margin-bottom: 50px;
+`;
+const StyledList = styled.li`
+  list-style: none;
+`;
+
 export function AnswerSortQuiz({ title, options }: AnswerQuizProps) {
+  const defaultRestOptions = shuffleArray(options).map((option, index) => {
+    return {
+      ...option,
+      originalIndex: index,
+      selected: false,
+    };
+  });
   const [state, dispatch] = useReducer(reducer, {
     selectedOptions: [],
-    restOptions: [...options],
+    restOptions: [...defaultRestOptions],
   });
 
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -93,36 +155,40 @@ export function AnswerSortQuiz({ title, options }: AnswerQuizProps) {
     const isCorrect = state.selectedOptions.every((option, index) => {
       return option.optionId === index;
     });
+    // TODO: 正解の順番に並び替えて模範解答を表示する。
+
     setIsCorrect(isCorrect);
   }, [state.selectedOptions]);
   return (
     <div>
-      <p>{title}</p>
-      <ul>
+      <StyledQuizTitleP>{title}</StyledQuizTitleP>
+      <StyledSelectedOptionUl>
         {state.selectedOptions.map((option) => {
           return (
-            <li key={option.optionId}>
+            <StyledList key={option.optionId}>
               <SelectedOption
                 option={option}
                 dispatch={dispatch}
               ></SelectedOption>
-            </li>
+            </StyledList>
           );
         })}
-      </ul>
-      <ul>
+      </StyledSelectedOptionUl>
+      <StyledRestOptionUl>
         {state.restOptions.map((option) => {
           return (
-            <li key={option.optionId}>
+            <StyledList key={option.optionId}>
               <EachOptionButton
                 option={option}
                 dispatch={dispatch}
               ></EachOptionButton>
-            </li>
+            </StyledList>
           );
         })}
-      </ul>
-      <button onClick={onClickAnswerBtn}>これで回答する</button>
+      </StyledRestOptionUl>
+      <Button isFullWidth color="secondary" onClick={onClickAnswerBtn}>
+        これで回答する
+      </Button>
       <Result isCorrect={isCorrect}></Result>
     </div>
   );
