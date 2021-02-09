@@ -28,6 +28,7 @@ type Props = StyledComponentInnerOtherProps<typeof StyledTextField> &
 export const Textfield = React.forwardRef<HTMLInputElement, Props>(
   ({ isFullWidth = false, ...otherProps }, ref) => (
     <StyledTextField
+      type="text"
       isFullWidth={isFullWidth}
       ref={ref}
       {...otherProps}
