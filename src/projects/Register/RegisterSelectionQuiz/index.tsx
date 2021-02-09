@@ -1,6 +1,11 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "../../../components/atoms/Button";
+import { FormErrorText } from "../../../components/atoms/FormErrorText";
+import { FormItemLabel } from "../../../components/atoms/FormItemLabel";
+import { FormItemWrap } from "../../../components/atoms/FormItemWrap";
+import { Textfield } from "../../../components/atoms/Textfield";
 import { postQuiz, QuizToPost } from "../../../utils/postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
 
@@ -48,22 +53,25 @@ export function RegisterSelectionQuiz() {
   );
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="register-quiz-title">問題文</label>
-      <input
-        type="text"
-        id="register-quiz-title"
-        name="selectionQuizTitle"
-        placeholder="問題文を入力してください"
-        ref={register({
-          required: "問題文を入力してください",
-        })}
-      ></input>
-      {errors.selectionQuizTitle && (
-        <p role="alert" aria-label="問題文エラー">
-          {errors.selectionQuizTitle.message}
-        </p>
-      )}
-      <label htmlFor="selectionQuizCorrectAnswer">正答</label>
+      <FormItemWrap>
+        <FormItemLabel htmlFor="register-quiz-title">問題文</FormItemLabel>
+        <Textfield
+          type="text"
+          id="register-quiz-title"
+          name="selectionQuizTitle"
+          placeholder="問題文を入力してください"
+          isFullWidth
+          ref={register({
+            required: "問題文を入力してください",
+          })}
+        ></Textfield>
+        {errors.selectionQuizTitle && (
+          <FormErrorText role="alert" aria-label="問題文エラー">
+            {errors.selectionQuizTitle.message}
+          </FormErrorText>
+        )}
+      </FormItemWrap>
+      <FormItemLabel htmlFor="selectionQuizCorrectAnswer">正答</FormItemLabel>
 
       {[...Array(4)].map((_, index) => {
         const optionId = index + 1;
@@ -86,12 +94,15 @@ export function RegisterSelectionQuiz() {
         );
       })}
       {errors.selectionQuizCorrectAnswer && (
-        <p role="alert" aria-label="正答選択のエラー">
+        <FormErrorText role="alert" aria-label="正答選択のエラー">
           {errors.selectionQuizCorrectAnswer.message}
-        </p>
+        </FormErrorText>
       )}
-
-      <button type="submit">クイズを登録する</button>
+      <FormItemWrap>
+        <Button isFullWidth type="submit">
+          クイズを登録する
+        </Button>
+      </FormItemWrap>
     </form>
   );
 }

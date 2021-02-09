@@ -3,11 +3,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { SortQuizOption } from "../SortQuizOption";
 import { useRouter } from "next/router";
 import { postQuiz, QuizToPost } from "../../../utils/postQuiz";
+import { FormItemLabel } from "../../../components/atoms/FormItemLabel";
+import { Textfield } from "../../../components/atoms/Textfield";
+import { FormErrorText } from "../../../components/atoms/FormErrorText";
+import { Button } from "../../../components/atoms/Button";
+import { FormItemWrap } from "../../../components/atoms/FormItemWrap";
+import styled from "styled-components";
 
 type FormValues = {
   sortQuizTitle: string;
   sortQuizOption: string[];
 };
+
+const StyledFormItemWrap = styled(FormItemWrap)`
+  text-align: center;
+  margin-bottom: 15px;
+`;
 
 export type SortableQuiz = Extract<QuizToPost, { type: "sort" }>;
 
@@ -64,21 +75,23 @@ export function RegisterSortQuiz() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="register-quiz-title">問題文</label>
-        <input
-          type="text"
-          id="register-quiz-title"
-          name="sortQuizTitle"
-          placeholder="問題文を入力してください"
-          ref={register({
-            required: "問題文を入力してください。",
-          })}
-        ></input>
-        {errors.sortQuizTitle && (
-          <p role="alert" aria-label="問題文エラー">
-            {errors.sortQuizTitle.message}
-          </p>
-        )}
+        <FormItemWrap>
+          <FormItemLabel htmlFor="register-quiz-title">問題文</FormItemLabel>
+          <Textfield
+            id="register-quiz-title"
+            name="sortQuizTitle"
+            placeholder="問題文を入力してください"
+            ref={register({
+              required: "問題文を入力してください。",
+            })}
+            isFullWidth
+          ></Textfield>
+          {errors.sortQuizTitle && (
+            <FormErrorText role="alert" aria-label="問題文エラー">
+              {errors.sortQuizTitle.message}
+            </FormErrorText>
+          )}
+        </FormItemWrap>
         {indexes.map((optionId) => {
           return (
             <SortQuizOption
@@ -100,9 +113,16 @@ export function RegisterSortQuiz() {
             />
           );
         })}
-        <button onClick={onClickAddBtn}>追加する</button>
-
-        <button type="submit">クイズを登録する</button>
+        <StyledFormItemWrap>
+          <Button color="info" onClick={onClickAddBtn}>
+            追加する
+          </Button>
+        </StyledFormItemWrap>
+        <FormItemWrap>
+          <Button isFullWidth type="submit">
+            クイズを登録する
+          </Button>
+        </FormItemWrap>
       </form>
     </>
   );
