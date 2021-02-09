@@ -16,7 +16,7 @@ export const appTheme = {
     secondary: {
       main: "#1DB0BC",
       light: lighten(0.2, "#1DB0BC"),
-      dark: lighten(0.2, "#1DB0BC"),
+      dark: darken(0.2, "#1DB0BC"),
       contrastText: "#fff",
     },
     error: {
@@ -32,10 +32,10 @@ export const appTheme = {
       contrastText: "rgba(0, 0, 0, 0.87)",
     },
     info: {
-      light: "#64b5f6",
-      main: "#2196f3",
-      dark: "#1976d2",
-      contrastText: "#fff",
+      light: lighten(0.2, "#FFEA1B"),
+      main: "#FFEA1B",
+      dark: darken(0.2, "#FFEA1B"),
+      contrastText: "#000",
     },
     success: {
       light: "#81c784",
