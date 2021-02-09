@@ -12,6 +12,15 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
+const StyledFooter = styled.footer`
+  margin-top: 20px;
+  padding: 20px;
+`;
+
+const StyledFooterP = styled.p`
+  text-align: center;
+`;
+
 type Props = {
   children: React.ReactNode;
   urlToRedirectWhenLoggedIn: string;
@@ -53,9 +62,12 @@ export function LayoutForNotLoggedIn({
   // 非ログイン時
   if (!user) {
     return (
-      <>
+      <div>
         <main>{children}</main>
-      </>
+        <StyledFooter>
+          <StyledFooterP>©2021 empitsu</StyledFooterP>
+        </StyledFooter>
+      </div>
     );
   }
 

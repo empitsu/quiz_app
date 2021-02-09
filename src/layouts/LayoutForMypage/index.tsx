@@ -5,12 +5,34 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth, logout } from "../../utils/firebaseHelpers";
 import { Loading } from "../../components/atoms/Loading";
 import styled from "styled-components";
+import { Button } from "../../components/atoms/Button";
+import { FormErrorText } from "../../components/atoms/FormErrorText";
+
+const StyledHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+`;
+
+const StyledH1 = styled.h1`
+  margin: 0;
+`;
 
 const StyledMain = styled.main`
   min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledFooter = styled.footer`
+  margin-top: 20px;
+  padding: 20px;
+`;
+
+const StyledFooterP = styled.p`
+  text-align: center;
 `;
 
 type Props = {
@@ -74,16 +96,31 @@ export function LayoutForMypage({
   // ログイン済み
   return (
     <div>
-      <header>
-        <nav>
-          <Link href="/mypage/">もどる</Link>
-          <button onClick={onClickLogout} disabled={loadingForAuth}>
+      <StyledHeader>
+        <Link href="/mypage/">
+          <StyledH1>
+            <a>Simple Quiz Maker</a>
+          </StyledH1>
+        </Link>
+        <div>
+          <Button
+            color="info"
+            onClick={onClickLogout}
+            disabled={loadingForAuth}
+          >
             ログアウト
-          </button>
-          {logoutError && <p>{logoutError.message}</p>}
-        </nav>
-      </header>
+          </Button>
+          {logoutError && (
+            <FormErrorText role="alert" aria-label="ログアウトエラー">
+              {logoutError.message}
+            </FormErrorText>
+          )}
+        </div>
+      </StyledHeader>
       <main>{children}</main>
+      <StyledFooter>
+        <StyledFooterP>©2021 empitsu</StyledFooterP>
+      </StyledFooter>
     </div>
   );
 }
