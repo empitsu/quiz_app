@@ -23,7 +23,10 @@ export const reducer = (
 
       // もとの選択肢には戻す
       const copiedRestOptions = [...state.restOptions];
-      copiedRestOptions[targetIndex] = action.payload;
+      copiedRestOptions[targetIndex] = {
+        ...action.payload,
+        selected: false,
+      };
 
       return {
         restOptions: copiedRestOptions,
@@ -37,7 +40,7 @@ export const reducer = (
       const copiedRestOptions = [...state.restOptions];
       copiedRestOptions[action.payload.originalIndex] = {
         ...copiedRestOptions[action.payload.originalIndex],
-        text: "",
+        selected: true,
       };
       return {
         restOptions: copiedRestOptions,
@@ -47,7 +50,10 @@ export const reducer = (
     case RESET:
       return {
         selectedOptions: [],
-        restOptions: action.payload,
+        restOptions: action.payload.map((option) => ({
+          ...option,
+          selected: false,
+        })),
       };
   }
 };
