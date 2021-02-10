@@ -58,8 +58,7 @@ export function LayoutForMypage({
 
   useEffect(() => {
     if (!user && !loadingForAuth) {
-      console.log("ログインしてないのでリダイレクト！in Layout");
-
+      // ログインしてないのでリダイレクト
       router.push(urlToRedirectWhenNotLoggedIn);
     }
   }, [loadingForAuth, router, urlToRedirectWhenNotLoggedIn, user]);

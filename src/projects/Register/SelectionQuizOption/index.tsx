@@ -25,6 +25,7 @@ export const SelectionQuizOption = forwardRef<
   QuizOptionProps
 >(({ optionId, radioRef, errorMessage }, ref) => {
   // nameを`SelectionQuizOption[${optionId}]`にするとsubmit時のdataが配列形式になる
+  // https://react-hook-form.com/api#register
   const fieldName = `selectionQuizOption[${optionId}]`;
   return (
     <>
@@ -35,6 +36,7 @@ export const SelectionQuizOption = forwardRef<
             name="selectionQuizCorrectAnswer"
             value={optionId}
             ref={radioRef}
+            aria-label={`選択肢${optionId}を正答にする`}
           >
             {""}
           </Radio>

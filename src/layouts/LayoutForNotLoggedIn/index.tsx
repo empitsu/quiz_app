@@ -35,8 +35,7 @@ export function LayoutForNotLoggedIn({
 
   useEffect(() => {
     if (user) {
-      console.log("ログイン完了したのでリダイレクト！in Layout");
-
+      // ログイン完了したのでリダイレクト
       router.push(urlToRedirectWhenLoggedIn);
     }
   }, [router, urlToRedirectWhenLoggedIn, user]);

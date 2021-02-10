@@ -24,8 +24,6 @@ export function RegisterSelectionQuiz() {
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
     async (data) => {
-      console.log(data);
-
       const options: SelectionQuiz["options"] = data.selectionQuizOption
         .filter((element) => element !== undefined)
         .map((text, index) => {
@@ -71,7 +69,7 @@ export function RegisterSelectionQuiz() {
           </FormErrorText>
         )}
       </FormItemWrap>
-      <FormItemLabel htmlFor="selectionQuizCorrectAnswer">正答</FormItemLabel>
+      <p>正答</p>
 
       {[...Array(4)].map((_, index) => {
         const optionId = index + 1;

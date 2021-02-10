@@ -35,7 +35,7 @@ export async function createUserWithEmailAndPassword(
     console.log(user);
     return user;
   } catch (error) {
-    const errorCode = error.code;
+    // const errorCode = error.code;
     const errorMessage = error.message;
     throw new Error(errorMessage);
   }

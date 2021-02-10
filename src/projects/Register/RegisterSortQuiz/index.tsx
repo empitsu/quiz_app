@@ -35,8 +35,6 @@ export function RegisterSortQuiz() {
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
     async (data) => {
-      console.log(data);
-
       const options: SortableQuiz["options"] = data.sortQuizOption
         .filter((element) => element !== undefined)
         .map((text, index) => {
