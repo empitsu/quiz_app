@@ -1,4 +1,3 @@
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import type firebase from "firebase";
 import Link from "next/link";
 
@@ -6,7 +5,6 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import { getQuizzes } from "../../../utils/getQuizzes";
 import { AnswerSelectionQuiz } from "../../../projects/Answer/AnswerSelectionQuiz";
-import { shuffleArray } from "../../../utils/shuffleArray";
 import { AnswerSortQuiz } from "../../../projects/Answer/AnswerSortQuiz";
 import { useRouter } from "next/router";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
@@ -18,7 +16,9 @@ import { Button } from "../../atoms/Button";
 import { FormItemWrap } from "../../atoms/FormItemWrap";
 import { LinkText } from "../../atoms/LinkText";
 
-const StyledNoQuizP = styled.p``;
+const StyledNoQuizP = styled.p`
+  text-align: center;
+`;
 
 const StyledResultP = styled.p`
   text-align: center;
@@ -27,7 +27,7 @@ const StyledResultP = styled.p`
 `;
 
 // TODO: quizzesLengthはcontextから取得するようにする。
-function Result({ quizzesLength }: { quizzesLength: number }) {
+function OverallGrade({ quizzesLength }: { quizzesLength: number }) {
   const { state } = useContext(AnswerPropStore);
 
   const router = useRouter();
@@ -68,6 +68,10 @@ function AnswerSelectionOrSortQuiz({
   quizId: string;
   quiz: QuizData;
 }) {
+  const router = useRouter();
+  const onClickCancelBtn = useCallback(() => {
+    router.reload();
+  }, [router]);
   if (quiz.type === "selection") {
     return (
       <>
@@ -77,6 +81,9 @@ function AnswerSelectionOrSortQuiz({
           options={quiz.options}
           correctOptionId={quiz.correctOptionId}
         ></AnswerSelectionQuiz>
+        <StyledCancelP>
+          <LinkText onClick={onClickCancelBtn}>キャンセルしてやり直す</LinkText>
+        </StyledCancelP>
       </>
     );
   }
@@ -88,6 +95,9 @@ function AnswerSelectionOrSortQuiz({
         title={quiz.title}
         options={quiz.options}
       ></AnswerSortQuiz>
+      <StyledCancelP>
+        <LinkText onClick={onClickCancelBtn}>キャンセルしてやり直す</LinkText>
+      </StyledCancelP>
     </>
   );
 }
@@ -120,11 +130,6 @@ export default function AnswerTemplate() {
   const [docs, setDocs] = useState<null | Docs>(null);
   const isMountedRef = useRef<null | boolean>(null);
 
-  const router = useRouter();
-  const onClickCancelBtn = useCallback(() => {
-    router.reload();
-  }, [router]);
-
   useEffect(() => {
     isMountedRef.current = true;
     (async () => {
@@ -154,20 +159,13 @@ export default function AnswerTemplate() {
         </StyledNoQuizP>
       )}
       {docs !== null && state.currentQuizIndex < docs.length && (
-        <>
-          <AnswerSelectionOrSortQuiz
-            quizId={docs[state.currentQuizIndex].id}
-            quiz={docs[state.currentQuizIndex].data() as QuizData}
-          />
-          <StyledCancelP>
-            <LinkText onClick={onClickCancelBtn}>
-              キャンセルしてやり直す
-            </LinkText>
-          </StyledCancelP>
-        </>
+        <AnswerSelectionOrSortQuiz
+          quizId={docs[state.currentQuizIndex].id}
+          quiz={docs[state.currentQuizIndex].data() as QuizData}
+        />
       )}
       {docs !== null && state.currentQuizIndex >= docs.length && (
-        <Result quizzesLength={docs.length}></Result>
+        <OverallGrade quizzesLength={docs.length}></OverallGrade>
       )}
     </Column1>
   );

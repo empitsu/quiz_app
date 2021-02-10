@@ -1,9 +1,8 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../../components/atoms/Button";
-import { AnswerPropStore } from "../../../contexts/AnswerProps";
-import { incrementCurrentQuiz } from "../../../ducks/AnswerTemplate";
-
+import { Heading } from "../../../components/atoms/Heading";
+import { AnswerResult } from "../AnswerResult";
 // todo:共通化
 type Option = {
   optionId: number;
@@ -46,42 +45,6 @@ function ButtonToAnswer({
   );
 }
 
-type ResultProps = {
-  isCorrect: boolean | null;
-};
-
-function Result({ isCorrect }: ResultProps) {
-  const { dispatch } = useContext(AnswerPropStore);
-
-  if (isCorrect === null) return null;
-  if (isCorrect) {
-    return (
-      <>
-        <p>正解！</p>
-        <button
-          onClick={() => {
-            dispatch(incrementCurrentQuiz(true));
-          }}
-        >
-          次へ
-        </button>
-      </>
-    );
-  }
-  return (
-    <>
-      <p>不正解！</p>
-      <button
-        onClick={() => {
-          dispatch(incrementCurrentQuiz(false));
-        }}
-      >
-        次へ
-      </button>
-    </>
-  );
-}
-
 const StyledQuizTitleP = styled.p`
   text-align: center;
   margin-bottom: 30px;
@@ -97,11 +60,18 @@ const StyledUl = styled.ul`
   padding: 0;
 `;
 
+const StyledSelectionQuizWrapDiv = styled.div`
+  position: relative;
+`;
+
 export function AnswerSelectionQuiz({
   title,
   options,
   correctOptionId,
 }: AnswerQuizProps) {
+  const officialAnswer = options.find(
+    (option) => option.optionId === correctOptionId
+  )?.text;
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const onAnswerCorrectly = useCallback(() => {
     setIsCorrect(true);
@@ -110,24 +80,34 @@ export function AnswerSelectionQuiz({
     setIsCorrect(false);
   }, []);
   return (
-    <div>
+    <article>
+      <Heading styleLevel="h3">選択してください</Heading>
+
       <StyledQuizTitleP>{title}</StyledQuizTitleP>
-      <StyledUl>
-        {options.map((option) => {
-          return (
-            <StyledList key={option.optionId}>
-              <ButtonToAnswer
-                optionId={option.optionId}
-                text={option.text}
-                correctOptionId={correctOptionId}
-                onAnswerCorrectly={onAnswerCorrectly}
-                onMistake={onMistake}
-              ></ButtonToAnswer>
-            </StyledList>
-          );
-        })}
-      </StyledUl>
-      <Result isCorrect={isCorrect}></Result>
-    </div>
+      <StyledSelectionQuizWrapDiv>
+        {isCorrect === null ? (
+          <StyledUl>
+            {options.map((option) => {
+              return (
+                <StyledList key={option.optionId}>
+                  <ButtonToAnswer
+                    optionId={option.optionId}
+                    text={option.text}
+                    correctOptionId={correctOptionId}
+                    onAnswerCorrectly={onAnswerCorrectly}
+                    onMistake={onMistake}
+                  ></ButtonToAnswer>
+                </StyledList>
+              );
+            })}
+          </StyledUl>
+        ) : (
+          <AnswerResult
+            isCorrect={isCorrect}
+            officialAnswer={officialAnswer ?? ""}
+          ></AnswerResult>
+        )}
+      </StyledSelectionQuizWrapDiv>
+    </article>
   );
 }
