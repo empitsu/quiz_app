@@ -9,6 +9,7 @@ const testOption = {
   optionId: 0,
   text: "test",
   originalIndex: 0,
+  selected: false,
 };
 describe("reducer()", () => {
   it("should remove an option from selected options with 'popFromSelectedOptions action", () => {
@@ -48,7 +49,7 @@ describe("reducer()", () => {
       pushToSelectedOptions(testOption)
     );
     expect(result).toEqual({
-      restOptions: [{ ...testOption, text: "" }],
+      restOptions: [{ ...testOption, selected: true }],
       selectedOptions: [testOption],
     });
   });

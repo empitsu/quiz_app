@@ -8,6 +8,7 @@ const testOption = {
   optionId: 0,
   text: "test",
   originalIndex: 1,
+  selected: false,
 };
 describe("Actions of AnswerSortQuiz", () => {
   describe("popFromSelectedOptions()", () => {

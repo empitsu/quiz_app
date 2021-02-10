@@ -5,6 +5,7 @@ import {
 } from "../../../../src/projects/Register/RegisterSelectionQuiz";
 import { delayEventLoop } from "../../../delayEventLoop";
 import { postQuiz } from "../../../../src/utils/postQuiz";
+import { StyleThemeProvider } from "../../../../src/contexts/StyleThemeProvider";
 
 jest.spyOn(window, "alert").mockImplementation(jest.fn());
 
@@ -37,11 +38,19 @@ function submitWithValidValues({
   fireEvent.submit(submitElement);
 }
 
-describe("RegisterSelectionQuiz", () => {
+function TestComponent() {
+  return (
+    <StyleThemeProvider>
+      <RegisterSelectionQuiz />
+    </StyleThemeProvider>
+  );
+}
+
+describe("<RegisterSelectionQuiz />", () => {
   describe("An error message for title of the quiz", () => {
     it("should be displayed when the value is empty", async () => {
       const { getByLabelText, queryByRole, getByText } = render(
-        <RegisterSelectionQuiz />
+        <TestComponent />
       );
       const titleInputElement = getByLabelText("問題文");
       fireEvent.input(titleInputElement, { target: { value: "" } });
@@ -56,7 +65,7 @@ describe("RegisterSelectionQuiz", () => {
   });
   describe("An error message to select the correct answer", () => {
     it("should be displayed when the radio is not selected", async () => {
-      const { queryByRole, getByText } = render(<RegisterSelectionQuiz />);
+      const { queryByRole, getByText } = render(<TestComponent />);
       const submitBtn = getByText("クイズを登録する");
       fireEvent.submit(submitBtn);
       await delayEventLoop();
@@ -70,7 +79,7 @@ describe("RegisterSelectionQuiz", () => {
   describe("An error message for an option", () => {
     it("should be displayed when the value is empty", async () => {
       const { getByLabelText, queryByRole, getByText } = render(
-        <RegisterSelectionQuiz />
+        <TestComponent />
       );
       const optionInputElement = getByLabelText("選択肢1");
       fireEvent.input(optionInputElement, { target: { value: "" } });
@@ -84,7 +93,7 @@ describe("RegisterSelectionQuiz", () => {
   });
   describe("postQuiz", () => {
     it("should be called with quiz when all values are valid and then submit button is clicked", async () => {
-      const { getByLabelText, getByText } = render(<RegisterSelectionQuiz />);
+      const { getByLabelText, getByText } = render(<TestComponent />);
       const optionInputElements = [...Array(4)].map((_, index) => {
         return getByLabelText(`選択肢${index + 1}`);
       });
@@ -92,7 +101,7 @@ describe("RegisterSelectionQuiz", () => {
       submitWithValidValues({
         titleElement: getByLabelText("問題文"),
         optionElements: optionInputElements,
-        correctAnswerRadioElement: getByLabelText("正答"),
+        correctAnswerRadioElement: getByLabelText("選択肢1を正答にする"),
         submitElement: getByText("クイズを登録する"),
       });
 
@@ -115,7 +124,7 @@ describe("RegisterSelectionQuiz", () => {
   });
   describe("window.alert", () => {
     it("should be displayed when completing posting a quiz", async () => {
-      const { getByLabelText, getByText } = render(<RegisterSelectionQuiz />);
+      const { getByLabelText, getByText } = render(<TestComponent />);
       const optionInputElements = [...Array(4)].map((_, index) => {
         return getByLabelText(`選択肢${index + 1}`);
       });
@@ -123,7 +132,7 @@ describe("RegisterSelectionQuiz", () => {
       submitWithValidValues({
         titleElement: getByLabelText("問題文"),
         optionElements: optionInputElements,
-        correctAnswerRadioElement: getByLabelText("正答"),
+        correctAnswerRadioElement: getByLabelText("選択肢1を正答にする"),
         submitElement: getByText("クイズを登録する"),
       });
       await delayEventLoop();

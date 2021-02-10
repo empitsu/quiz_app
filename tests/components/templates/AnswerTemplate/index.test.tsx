@@ -13,6 +13,7 @@ import { AnswerPropsProvider } from "../../../../src/contexts/AnswerProps";
 import { AnswerProps } from "../../../../src/ducks/AnswerTemplate/model";
 import { NextRouter } from "next/router";
 import { RouterMock } from "../../../RouterMock";
+import { StyleThemeProvider } from "../../../../src/contexts/StyleThemeProvider";
 
 jest.mock("../../../../src/projects/Answer/AnswerSortQuiz", () => {
   return {
@@ -35,9 +36,11 @@ beforeEach(() => {
 type AnswerSortQuizProps = ComponentPropsWithoutRef<typeof AnswerSortQuiz>;
 function TestComponent(answerProps: AnswerProps) {
   return (
-    <AnswerPropsProvider initialState={answerProps}>
-      <AnswerTemplate />
-    </AnswerPropsProvider>
+    <StyleThemeProvider>
+      <AnswerPropsProvider initialState={answerProps}>
+        <AnswerTemplate />
+      </AnswerPropsProvider>
+    </StyleThemeProvider>
   );
 }
 
@@ -83,7 +86,6 @@ describe("<AnswerTemplate />", () => {
       {
         optionId: 1,
         text: "option1",
-        originalIndex: 0,
       },
     ];
     expect(mocked(AnswerSortQuiz).mock.calls[0][0].options).toEqual(options);

@@ -6,13 +6,13 @@ import {
   RegisterSortQuiz,
   SortableQuiz,
 } from "../../../../src/projects/Register/RegisterSortQuiz";
+import { StyleThemeProvider } from "../../../../src/contexts/StyleThemeProvider";
 
 jest.spyOn(window, "alert").mockImplementation(jest.fn());
 
 jest.mock("../../../../src/utils/postQuiz", () => {
   return {
-    postQuiz: jest.fn().mockImplementation((value) => {
-      console.log(value, "postQuiz!!");
+    postQuiz: jest.fn().mockImplementation(() => {
       return Promise.resolve();
     }),
   };
@@ -36,11 +36,19 @@ function submitWithValidValues({
   fireEvent.submit(submitElement);
 }
 
-describe("RegisterSortQuiz", () => {
+function TestComponent() {
+  return (
+    <StyleThemeProvider>
+      <RegisterSortQuiz />
+    </StyleThemeProvider>
+  );
+}
+
+describe("<RegisterSortQuiz />", () => {
   describe("An error message for title of the quiz", () => {
     it("should be displayed when the value is empty", async () => {
       const { getByLabelText, queryByRole, getByText } = render(
-        <RegisterSortQuiz />
+        <TestComponent />
       );
       const titleInputElement = getByLabelText("問題文");
       fireEvent.input(titleInputElement, { target: { value: "" } });
@@ -57,7 +65,7 @@ describe("RegisterSortQuiz", () => {
   describe("An error message for an option", () => {
     it("should be displayed when the value is empty", async () => {
       const { getByLabelText, queryByRole, getByText } = render(
-        <RegisterSortQuiz />
+        <TestComponent />
       );
       const optionInputElement = getByLabelText("選択肢1");
       fireEvent.input(optionInputElement, { target: { value: "" } });
@@ -72,7 +80,7 @@ describe("RegisterSortQuiz", () => {
   // SortQuizOption
   describe("`Add` button", () => {
     it("should show an additional field", async () => {
-      const { getByLabelText, getByText } = render(<RegisterSortQuiz />);
+      const { getByLabelText, getByText } = render(<TestComponent />);
       fireEvent.click(getByText("追加する"));
       await delayEventLoop();
       expect(getByLabelText("選択肢2")).toBeInTheDocument();
@@ -83,7 +91,7 @@ describe("RegisterSortQuiz", () => {
   describe("Remove button", () => {
     it("should remove the corresponding option when it is clicked", async () => {
       const { queryByLabelText, getByText, findAllByText } = render(
-        <RegisterSortQuiz />
+        <TestComponent />
       );
       fireEvent.click(getByText("追加する"));
       await delayEventLoop();
@@ -96,7 +104,7 @@ describe("RegisterSortQuiz", () => {
       expect(queryByLabelText("選択肢2")).not.toBeInTheDocument();
     });
     it("should not be displayed when the number of options is only one", () => {
-      const { queryByText } = render(<RegisterSortQuiz />);
+      const { queryByText } = render(<TestComponent />);
       const removeBtn = queryByText("Remove");
       expect(removeBtn).not.toBeInTheDocument();
     });
@@ -104,7 +112,7 @@ describe("RegisterSortQuiz", () => {
 
   describe("postQuiz", () => {
     it("should be called with quiz when all values are valid and then submit button is clicked", async () => {
-      const { getByLabelText, getByText } = render(<RegisterSortQuiz />);
+      const { getByLabelText, getByText } = render(<TestComponent />);
       const optionInputElements = [...Array(1)].map((_, index) => {
         return getByLabelText(`選択肢${index + 1}`);
       });
@@ -129,7 +137,7 @@ describe("RegisterSortQuiz", () => {
 
   describe("window.alert", () => {
     it("should be displayed when completing posting a quiz", async () => {
-      const { getByLabelText, getByText } = render(<RegisterSortQuiz />);
+      const { getByLabelText, getByText } = render(<TestComponent />);
       const optionInputElements = [...Array(1)].map((_, index) => {
         return getByLabelText(`選択肢${index + 1}`);
       });

@@ -5,6 +5,7 @@ Object {
   "payload": Object {
     "optionId": 0,
     "originalIndex": 1,
+    "selected": false,
     "text": "test",
   },
   "type": "POP_FROM_SELECTED_OPTIONS",
@@ -16,6 +17,7 @@ Object {
   "payload": Object {
     "optionId": 0,
     "originalIndex": 1,
+    "selected": false,
     "text": "test",
   },
   "type": "PUSH_T0_SELECTED_OPTIONS",
@@ -28,6 +30,7 @@ Object {
     Object {
       "optionId": 0,
       "originalIndex": 1,
+      "selected": false,
       "text": "test",
     },
   ],
