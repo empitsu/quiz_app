@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { LayoutForNotLoggedIn } from "../layouts/LayoutForNotLoggedIn";
-import { IndexTemplate } from "../components/templates/IndexTemplate";
+import { LayoutForNotLoggedIn } from "../components/layouts/LayoutForNotLoggedIn";
+import { IndexTemplate } from "../components/pages/IndexTemplate";
 
 export default function Home() {
   return (

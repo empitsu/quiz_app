@@ -1,6 +1,6 @@
 import Head from "next/head";
-import RegisterTemplate from "../../components/templates/RegisterTemplate";
-import { LayoutForMypage } from "../../layouts/LayoutForMypage";
+import RegisterTemplate from "../../components/pages/RegisterTemplate";
+import { LayoutForMypage } from "../../components/layouts/LayoutForMypage";
 
 export default function Register() {
   return (

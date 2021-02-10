@@ -1,7 +1,7 @@
-import AnswerTemplate from "../../components/templates/AnswerTemplate";
+import AnswerTemplate from "../../components/pages/AnswerTemplate";
 import { AnswerPropsProvider } from "../../contexts/AnswerProps";
 import { answerProps } from "../../ducks/AnswerTemplate";
-import { LayoutForMypage } from "../../layouts/LayoutForMypage";
+import { LayoutForMypage } from "../../components/layouts/LayoutForMypage";
 import Head from "next/head";
 
 export default function Answer() {

@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { LayoutForMypage } from "../../layouts/LayoutForMypage";
-import { MyPageTopTemplate } from "../../components/templates/MyPageTopTemplate";
+import { LayoutForMypage } from "../../components/layouts/LayoutForMypage";
+import { MyPageTopTemplate } from "../../components/pages/MyPageTopTemplate";
 
 export default function MyPageTop() {
   return (

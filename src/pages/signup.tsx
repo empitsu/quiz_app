@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-import { LayoutForNotLoggedIn } from "../layouts/LayoutForNotLoggedIn";
-import { SignUpTemplate } from "../components/templates/SignUpTemplate";
+import { LayoutForNotLoggedIn } from "../components/layouts/LayoutForNotLoggedIn";
+import { SignUpTemplate } from "../components/pages/SignUpTemplate";
 
 export default function SignUp() {
   return (
