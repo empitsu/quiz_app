@@ -43,6 +43,12 @@ export const appTheme = {
       dark: "#388e3c",
       contrastText: "rgba(0, 0, 0, 0.87)",
     },
+    disabled: {
+      light: lighten(0.2, "#e0e0e0"),
+      main: "#e0e0e0",
+      dark: darken(0.2, "#e0e0e0"),
+      contrastText: "#fff",
+    },
     grey: {
       "50": "#fafafa",
       "100": "#f5f5f5",
