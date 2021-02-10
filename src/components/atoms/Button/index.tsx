@@ -1,23 +1,36 @@
 import React from "react";
-import styled, { StyledComponentInnerOtherProps } from "styled-components";
+import styled, {
+  CSSProperties,
+  StyledComponentInnerOtherProps,
+} from "styled-components";
 
 const StyledButton = styled.button<{
   isFullWidth: boolean;
   color: "primary" | "secondary" | "info" | "success";
+  disabled: boolean;
 }>`
   ${({ theme }) => theme.typography.button}
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   width: ${({ isFullWidth }) => (isFullWidth ? "100%" : "auto")};
-  color: ${({ theme, color }) => theme.palettes[color].contrastText};
-  background-color: ${({ theme, color }) => theme.palettes[color].main};
+  color: ${({ theme, color, disabled }) =>
+    disabled
+      ? theme.palettes.disabled.contrastText
+      : theme.palettes[color].contrastText};
+  background-color: ${({ theme, color, disabled }) => {
+    if (disabled) return theme.palettes.disabled.main;
+    return theme.palettes[color].main;
+  }};
   padding: 8px 22px;
   box-sizing: border-box;
   border: none;
   border-radius: ${({ theme }) => theme.border.radius};
   appearance: none;
-  box-shadow: 0 0.25rem 0 ${({ theme, color }) => theme.palettes[color].dark};
+  box-shadow: 0 0.25rem 0
+    ${({ theme, color, disabled }) =>
+      disabled ? theme.palettes.disabled.dark : theme.palettes[color].dark};
   :hover {
-    opacity: ${({ theme }) => theme.palettes.action.hoverOpacity};
+    opacity: ${({ theme, disabled }): CSSProperties["opacity"] =>
+      disabled ? 1 : theme.palettes.action.hoverOpacity};
   }
 `;
 
@@ -26,11 +39,18 @@ type Props = Partial<StyledComponentInnerOtherProps<typeof StyledButton>> &
 
 export const Button = React.forwardRef<HTMLButtonElement, Props>(
   (
-    { isFullWidth = false, color = "primary", children, ...otherProps },
+    {
+      isFullWidth = false,
+      disabled = false,
+      color = "primary",
+      children,
+      ...otherProps
+    },
     ref
   ) => (
     <StyledButton
       isFullWidth={isFullWidth}
+      disabled={disabled}
       color={color}
       ref={ref}
       {...otherProps}
