@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "../../../uikit/Button";
 import { Heading } from "../../../uikit/Heading";
 import { AnswerResult } from "../AnswerResult";
-// todo:共通化
+
 type Option = {
   optionId: number;
   text: string;

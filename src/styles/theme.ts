@@ -76,7 +76,7 @@ export const appTheme = {
     divider: "rgba(0, 0, 0, 0.12)",
     background: {
       paper: "#fff",
-      default: "#fffdf5",
+      default: "#f5faff",
       level2: "#f5f5f5",
       level1: "#fff",
     },

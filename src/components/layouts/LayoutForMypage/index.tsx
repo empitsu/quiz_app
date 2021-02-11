@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,12 +12,18 @@ import { FormErrorText } from "../../uikit/FormErrorText";
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 20px;
   cursor: pointer;
 `;
 
 const StyledH1 = styled.h1`
   margin: 0;
+`;
+
+const StyledLogoAnchor = styled.a`
+  :hover {
+    opacity: ${({ theme }) => theme.palettes.action.hoverOpacity};
+  }
 `;
 
 const StyledMain = styled.main`
@@ -96,11 +103,18 @@ export function LayoutForMypage({
   return (
     <div>
       <StyledHeader>
-        <Link href="/mypage/">
-          <StyledH1>
-            <a>Simple Quiz Maker</a>
-          </StyledH1>
-        </Link>
+        <StyledH1>
+          <Link href="/mypage/">
+            <StyledLogoAnchor>
+              <Image
+                src="/images/QuizMakerLogo.svg"
+                width="200"
+                height="40"
+                alt="QuizMaker"
+              ></Image>
+            </StyledLogoAnchor>
+          </Link>
+        </StyledH1>
         <div>
           <Button
             color="info"

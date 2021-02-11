@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { loginWithEmailAndPassword } from "../../../utils/firebaseHelpers";
 import { useCallback, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../uikit/Button";
 import { Textfield } from "../../uikit/Textfield";
@@ -12,7 +13,7 @@ import { Heading } from "../../uikit/Heading";
 import { Column1 } from "../../uikit/Column1";
 
 const StyledLogoH1 = styled.h1`
-  ${({ theme }) => theme.typography.h1}
+  margin: 50px 0 40px 0;
   text-align: center;
 `;
 
@@ -65,7 +66,14 @@ export function IndexTemplate() {
 
   return (
     <Column1>
-      <StyledLogoH1>Simple Quiz Maker</StyledLogoH1>
+      <StyledLogoH1>
+        <Image
+          src="/images/QuizMakerLogo.svg"
+          width="350"
+          height="70"
+          alt="QuizMaker"
+        ></Image>
+      </StyledLogoH1>
 
       <Heading styleLevel="h2">ログイン</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -8,12 +8,17 @@ import { FormItemWrap } from "../../../uikit/FormItemWrap";
 import { Textfield } from "../../../uikit/Textfield";
 import { postQuiz, QuizToPost } from "../../../../utils/postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
+import styled from "styled-components";
 
 type FormValues = {
   selectionQuizTitle: string;
   selectionQuizOption: string[];
   selectionQuizCorrectAnswer: string;
 };
+
+const StyledCenteredP = styled.p`
+  text-align: center;
+`;
 
 export type SelectionQuiz = Extract<QuizToPost, { type: "selection" }>;
 
@@ -51,6 +56,11 @@ export function RegisterSelectionQuiz() {
   );
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <StyledCenteredP>
+        選択肢を4つ表示し、その中から1つを選択する問題です。
+        <br />
+        実際の出題時は選択肢がランダムな順番で提示されます。
+      </StyledCenteredP>
       <FormItemWrap>
         <FormItemLabel htmlFor="register-quiz-title">問題文</FormItemLabel>
         <Textfield

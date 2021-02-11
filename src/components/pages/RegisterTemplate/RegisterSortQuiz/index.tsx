@@ -20,6 +20,10 @@ const StyledFormItemWrap = styled(FormItemWrap)`
   margin-bottom: 15px;
 `;
 
+const StyledCenteredP = styled.p`
+  text-align: center;
+`;
+
 export type SortableQuiz = Extract<QuizToPost, { type: "sort" }>;
 
 export function RegisterSortQuiz() {
@@ -73,12 +77,22 @@ export function RegisterSortQuiz() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <StyledCenteredP>
+          表示されている選択肢を全て使い、正しい順番に並び替える問題です。
+          <br />
+          実際の出題時は選択肢がランダムな順番で提示されます。
+        </StyledCenteredP>
+        <StyledCenteredP>
+          例）「りんごは英語で？」という問題を登録する場合、
+          <br />
+          選択肢欄には順番に「a」、「p」、「p」、「l」、「e」と登録してください。
+        </StyledCenteredP>
         <FormItemWrap>
           <FormItemLabel htmlFor="register-quiz-title">問題文</FormItemLabel>
           <Textfield
             id="register-quiz-title"
             name="sortQuizTitle"
-            placeholder="問題文を入力してください"
+            placeholder="問題文を入力してください。"
             ref={register({
               required: "問題文を入力してください。",
             })}
