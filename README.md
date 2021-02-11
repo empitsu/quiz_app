@@ -1,78 +1,112 @@
-# Example app with styled-components
+# 技術スタック
 
-This example features how you use a different styling solution than [styled-jsx](https://github.com/zeit/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
+- Next.js
+- TypeScript
+- Firebase Authentication
+- Firebase Cloud Firestore
+- Jest + Testing Library
+- styled-components
 
-For this purpose we are extending the `<Document />` and injecting the server side rendered styles into the `<head>`, and also adding the `babel-plugin-styled-components` (which is required for server side rendering). Additionally we set up a global [theme](https://www.styled-components.com/docs/advanced#theming) for styled-components using NextJS custom [`<App>`](https://nextjs.org/docs/advanced-features/custom-app) component.
 
-## Deploy your own
+# セットアップ手順
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+1. [Firebaseコンソール](https://console.firebase.google.com/) よりFirebaseプロジェクトを作成。
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-styled-components&project-name=with-styled-components&repository-name=with-styled-components)
+  参考：https://firebase.google.com/docs/web/setup#create-firebase-project
+  
+1. ウェブアプリの追加
+  1. 「プロジェクトの概要」ページで「アプリを追加」をクリック。
+  1. ウェブアイコン（</>）を選択してアプリの追加を行う。
 
-## How to use
+  参考：https://firebase.google.com/docs/web/setup#node.js-apps
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+1. 構成ファイルの入手
 
-```bash
-npx create-next-app --example with-styled-components with-styled-components-app
-# or
-yarn create next-app --example with-styled-components with-styled-components-app
-```
+  「プロジェクトの概要」の右の歯車アイコン > 「プロジェクトの設定」 > 「マイアプリ」 > 「Firebase SDK snippet」 より「構成」を選択。  
+  以下のようなオブジェクトをコピー。
+  
+  ```bash
+   // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+    var firebaseConfig = {
+      apiKey: "API_KEY",
+      authDomain: "PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://PROJECT_ID.firebaseio.com",
+      projectId: "PROJECT_ID",
+      storageBucket: "PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID",
+      measurementId: "G-MEASUREMENT_ID",
+    };
+  ```
+  
+  参考: https://firebase.google.com/docs/web/setup#node.js-apps
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+1. 構成ファイルをソースコードに設置
 
-### Try it on CodeSandbox
+  /src/configディレクトリに `firebaseConfig.json` というファイルを作成。  
+  先程コピーした構成オブジェクトをJSONとして貼り付ける。
 
-[Open this example on CodeSandbox](https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components)
-
-### Notes
-
-When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `next/link` within a styled-component, the [as](https://styled-components.com/docs/api#as-polymorphic-prop) prop provided by `styled` will collide with the Link's `as` prop and cause styled-components to throw an `Invalid tag` error. To avoid this, you can either use the recommended [forwardedAs](https://styled-components.com/docs/api#forwardedas-prop) prop from styled-components or use a different named prop to pass to a `styled` Link.
-
-<details>
-<summary>Click to expand workaround example</summary>
-<br />
-
-**components/StyledLink.js**
-
-```javascript
-import Link from "next/link";
-import styled from "styled-components";
-
-const StyledLink = ({ as, children, className, href }) => (
-  <Link href={href} as={as} passHref>
-    <a className={className}>{children}</a>
-  </Link>
-);
-
-export default styled(StyledLink)`
-  color: #0075e0;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #40a9ff;
+  イメージ：
+  ```json
+  {
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://PROJECT_ID.firebaseio.com",
+    projectId: "PROJECT_ID",
+    storageBucket: "PROJECT_ID.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID",
+    measurementId: "G-MEASUREMENT_ID",
   }
+  ```
+  
+1. Firebase Authenticationの有効化
 
-  &:focus {
-    color: #40a9ff;
-    outline: none;
-    border: 0;
+  1. プロジェクトページサイドメニューより「Authentication」セクションを開く。
+  2. 「ログイン方法」タブで「メール / パスワード」を有効にして、[保存] をクリック。
+
+  詳細： https://firebase.google.com/docs/auth/web/password-auth?hl=ja
+
+1. Firebase Admin SDKの秘密鍵の入手
+
+  1. プロジェクトページ「プロジェクトの概要」の右の歯車アイコン > 「プロジェクトの設定」 > [サービスアカウント](https://console.firebase.google.com/project/_/settings/serviceaccounts/adminsdk) を開く
+  1. 「新しい秘密鍵の生成」をクリックし、「キーを生成」をクリックして確定。
+  1. キーを含む JSON ファイル保存しておく。
+
+  参考：https://firebase.google.com/docs/admin/setup#node.js_1
+
+1. 秘密鍵をソースコードに設置
+
+  /src/configディレクトリに `firebaseAdminConfig.json` というファイルを作成。  
+  先程入手した秘密鍵の内容をJSONとして保存。
+  
+  
+  イメージ：
+  ```json
+  {
+    "type": "service_account",
+    "project_id": "xxxxx",
+    "private_key_id": "xxxxxx",
+    "private_key": "-----BEGIN PRIVATE KEY-----  your private key",
+    "client_email": "xxxx",
+    "client_id": "xxx",
+    "auth_uri": "xxxx",
+    "token_uri": "xxx",
+    "auth_provider_x509_cert_url": "xxxx",
+    "client_x509_cert_url": "xxxx"
   }
-`;
-```
+  ```
+    
+1. ルートディレクトリでnpm install
 
-**pages/index.js**
+  ```bash
+   npm install
+  ```
 
-```javascript
-import StyledLink from "../components/StyledLink";
+1. ローカルサーバーの起動
 
-export default () => (
-  <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
-    First post
-  </StyledLink>
-);
-```
+  ```bash
+   npm run dev
+  ```
 
-</details>
+起動したら、http://localhost:3000/ をブラウザで開く。
