@@ -3,7 +3,7 @@
 exports[`Actions of AnswerSortQuiz popFromSelectedOptions() should create an action to remove from selected options 1`] = `
 Object {
   "payload": Object {
-    "optionId": 0,
+    "optionId": 1,
     "originalIndex": 1,
     "selected": false,
     "text": "test",
@@ -15,7 +15,7 @@ Object {
 exports[`Actions of AnswerSortQuiz pushToSelectedOptions() should create an action to push to selected options 1`] = `
 Object {
   "payload": Object {
-    "optionId": 0,
+    "optionId": 1,
     "originalIndex": 1,
     "selected": false,
     "text": "test",
@@ -28,7 +28,7 @@ exports[`Actions of AnswerSortQuiz reset() should create an action to reset 1`] 
 Object {
   "payload": Array [
     Object {
-      "optionId": 0,
+      "optionId": 1,
       "originalIndex": 1,
       "selected": false,
       "text": "test",

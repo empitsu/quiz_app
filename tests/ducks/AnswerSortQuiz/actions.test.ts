@@ -5,7 +5,7 @@ import {
 } from "../../../src/ducks/AnswerSortQuiz";
 
 const testOption = {
-  optionId: 0,
+  optionId: 1,
   text: "test",
   originalIndex: 1,
   selected: false,

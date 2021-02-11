@@ -6,13 +6,13 @@ import {
 } from "../../../src/ducks/AnswerSortQuiz";
 
 const testOption = {
-  optionId: 0,
+  optionId: 1,
   text: "test",
   originalIndex: 0,
   selected: false,
 };
 describe("reducer()", () => {
-  it("should remove an option from selected options with 'popFromSelectedOptions action", () => {
+  it("should remove an option from selected options with popFromSelectedOptions action", () => {
     const result = reducer(
       {
         restOptions: [],
@@ -26,7 +26,7 @@ describe("reducer()", () => {
     });
   });
 
-  it("should remove an option from selected options with 'popFromSelectedOptions' is invoked", () => {
+  it("should remove an option from selected options with popFromSelectedOptions is invoked", () => {
     const result = reducer(
       {
         restOptions: [],
@@ -40,7 +40,7 @@ describe("reducer()", () => {
     });
   });
 
-  it("should add an option to selected options when 'pushToSelectedOptions' is invoked", () => {
+  it("should add an option to selected options when pushToSelectedOptions is invoked", () => {
     const result = reducer(
       {
         restOptions: [testOption],
@@ -54,7 +54,7 @@ describe("reducer()", () => {
     });
   });
 
-  it("should reset state with the payload when 'reset' is invoked", () => {
+  it("should reset state with the payload when reset is invoked", () => {
     const result = reducer(
       {
         restOptions: [{ ...testOption, text: "" }],
