@@ -32,10 +32,10 @@ export const appTheme = {
       contrastText: "rgba(0, 0, 0, 0.87)",
     },
     info: {
-      light: lighten(0.2, "#FFEA1B"),
-      main: "#FFEA1B",
-      dark: darken(0.2, "#FFEA1B"),
-      contrastText: "#000",
+      light: "#e0e0e0",
+      main: "#fff",
+      dark: darken(0.4, "#fff"),
+      contrastText: "#616161",
     },
     success: {
       light: "#81c784",

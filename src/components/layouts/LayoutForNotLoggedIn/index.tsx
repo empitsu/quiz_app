@@ -64,7 +64,7 @@ export function LayoutForNotLoggedIn({
       <div>
         <main>{children}</main>
         <StyledFooter>
-          <StyledFooterP>©2021 empitsu</StyledFooterP>
+          <StyledFooterP>© 2021 empitsu. All rights reserved.</StyledFooterP>
         </StyledFooter>
       </div>
     );

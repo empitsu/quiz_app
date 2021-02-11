@@ -22,7 +22,10 @@ const StyledButton = styled.button<{
   }};
   padding: 8px 22px;
   box-sizing: border-box;
-  border: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${({ theme, color }) =>
+    color === "info" ? theme.palettes.info.light : "transparent"};
   border-radius: ${({ theme }) => theme.border.radius};
   appearance: none;
   box-shadow: 0 0.25rem 0

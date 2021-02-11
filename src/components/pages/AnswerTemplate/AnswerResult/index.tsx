@@ -44,7 +44,7 @@ export function AnswerResult({ isCorrect, officialAnswer }: ResultProps) {
         <p>正解：{officialAnswer}</p>
         <Button
           isFullWidth
-          color="info"
+          color="secondary"
           onClick={() => {
             dispatch(incrementCurrentQuiz(true));
           }}
@@ -64,7 +64,7 @@ export function AnswerResult({ isCorrect, officialAnswer }: ResultProps) {
 
       <Button
         isFullWidth
-        color="info"
+        color="secondary"
         onClick={() => {
           dispatch(incrementCurrentQuiz(false));
         }}
