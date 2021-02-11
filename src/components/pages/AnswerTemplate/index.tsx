@@ -1,7 +1,6 @@
-import type firebase from "firebase";
 import Link from "next/link";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { getQuizzes } from "../../../utils/getQuizzes";
+import { getQuizzes, QuizArray } from "../../../utils/getQuizzes";
 import { useRouter } from "next/router";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
 import { Column1 } from "../../uikit/Column1";
@@ -59,25 +58,19 @@ const StyledCancelP = styled.p`
 `;
 
 // TODO: quiz dataやidもcontextに保存する。テストが書きやすくなるため。
-function AnswerSelectionOrSortQuiz({
-  quizId,
-  quiz,
-}: {
-  quizId: string;
-  quiz: QuizData;
-}) {
+function AnswerSelectionOrSortQuiz({ quiz }: { quiz: QuizArray[number] }) {
   const router = useRouter();
   const onClickCancelBtn = useCallback(() => {
     router.reload();
   }, [router]);
-  if (quiz.type === "selection") {
+  if (quiz.data.type === "selection") {
     return (
       <>
         <AnswerSelectionQuiz
-          key={quizId}
-          title={quiz.title}
-          options={quiz.options}
-          correctOptionId={quiz.correctOptionId}
+          key={quiz.id}
+          title={quiz.data.title}
+          options={quiz.data.options}
+          correctOptionId={quiz.data.correctOptionId}
         ></AnswerSelectionQuiz>
         <StyledCancelP>
           <LinkText onClick={onClickCancelBtn}>キャンセルしてやり直す</LinkText>
@@ -89,9 +82,9 @@ function AnswerSelectionOrSortQuiz({
   return (
     <>
       <AnswerSortQuiz
-        key={quizId}
-        title={quiz.title}
-        options={quiz.options}
+        key={quiz.id}
+        title={quiz.data.title}
+        options={quiz.data.options}
       ></AnswerSortQuiz>
       <StyledCancelP>
         <LinkText onClick={onClickCancelBtn}>キャンセルしてやり直す</LinkText>
@@ -100,33 +93,16 @@ function AnswerSelectionOrSortQuiz({
   );
 }
 
-// todo:共通化
-export type QuizData =
-  | {
-      type: "sort";
-      title: string;
-      options: {
-        optionId: number;
-        text: string;
-      }[];
-    }
-  | {
-      type: "selection";
-      title: string;
-      correctOptionId: number;
-      options: {
-        optionId: number;
-        text: string;
-      }[];
-    };
-
-//
-type Docs = firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[];
 export default function AnswerTemplate() {
   const { state } = useContext(AnswerPropStore);
   const [error, setError] = useState<Error | null>(null);
-  const [docs, setDocs] = useState<null | Docs>(null);
+  const [docs, setDocs] = useState<null | QuizArray>(null);
   const isMountedRef = useRef<null | boolean>(null);
+
+  const isEmptyQuiz = docs !== null && docs.length === 0;
+  const isQuizAvailable = docs !== null && state.currentQuizIndex < docs.length;
+  const isShowResult =
+    docs !== null && docs.length !== 0 && state.currentQuizIndex >= docs.length;
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -151,19 +127,20 @@ export default function AnswerTemplate() {
           {error.message}
         </FormErrorText>
       )}
-      {docs !== null && docs.length === 0 && (
+      {isEmptyQuiz && (
         <StyledNoQuizP>
           まだ問題がありません。登録画面からクイズを登録してください。
         </StyledNoQuizP>
       )}
-      {docs !== null && state.currentQuizIndex < docs.length && (
+      {isQuizAvailable && (
         <AnswerSelectionOrSortQuiz
-          quizId={docs[state.currentQuizIndex].id}
-          quiz={docs[state.currentQuizIndex].data() as QuizData}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          quiz={docs![state.currentQuizIndex]}
         />
       )}
-      {docs !== null && state.currentQuizIndex >= docs.length && (
-        <OverallGrade quizzesLength={docs.length}></OverallGrade>
+      {isShowResult && (
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        <OverallGrade quizzesLength={docs!.length}></OverallGrade>
       )}
     </Column1>
   );

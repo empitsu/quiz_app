@@ -1,63 +1,56 @@
 import { getApp } from "./firebaseHelpers";
-import firebase from "firebase/app";
-import { shuffleArray } from "./shuffleArray";
 
-async function getNearestDoc(
-  docRef: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>,
-  maxLength: number,
-  direction: "<" | ">=",
-  randomId: string
-) {
-  try {
-    const res = await docRef
-      .where(firebase.firestore.FieldPath.documentId(), direction, randomId)
-      .limit(maxLength)
-      .get();
+// TODO:共通化
+type Option = {
+  optionId: number;
+  text: string;
+};
 
-    return res;
-  } catch (error) {
-    throw new Error(error);
-  }
-}
+type Quiz =
+  | {
+      type: "sort";
+      title: string;
+      options: Option[];
+    }
+  | {
+      type: "selection";
+      title: string;
+      correctOptionId: number;
+      options: Option[];
+    };
 
-export async function getQuizzes(): Promise<
-  firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
-> {
+export type QuizArray = {
+  id: string;
+  data: Quiz;
+}[];
+
+export async function getQuizzes(): Promise<QuizArray> {
   const auth = getApp().auth();
   if (!auth || auth.currentUser === null) {
     throw new Error("ログインされていません");
   }
-  const maxLength = 5;
 
-  const db = getApp().firestore();
-  const docRef = db
-    .collection("quizzes")
-    .doc(auth.currentUser.uid)
-    .collection("quizzes");
-  // 新しいDocumentのためにランダムに生成されるID
-  const randomId = docRef.doc().id;
-
+  const token = await auth.currentUser.getIdToken(true);
   try {
-    const firstResponse = await getNearestDoc(
-      docRef,
-      maxLength,
-      ">=",
-      randomId
-    );
-    console.log("first access", firstResponse);
+    const res = await fetch(`/api/quizzes`, {
+      method: "GET",
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+    console.log("res", res);
 
-    if (firstResponse.size < maxLength) {
-      // 方向を変えてリトライ
-      try {
-        const res = await getNearestDoc(docRef, maxLength, "<", randomId);
-        console.log("second access", res);
+    const responseJson = await res.json();
 
-        return shuffleArray([...res.docs, ...firstResponse.docs]).slice(0, 5);
-      } catch (error) {
-        throw new Error(error);
-      }
+    console.log("responseJson", responseJson);
+    if (res.ok) {
+      return responseJson;
+    } else {
+      const errorType: string = ((responseJson as unknown) as { type: string })
+        .type;
+
+      throw new Error(errorType);
     }
-    return shuffleArray(firstResponse.docs);
   } catch (error) {
     throw new Error(error);
   }

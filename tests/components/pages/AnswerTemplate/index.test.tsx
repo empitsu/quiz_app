@@ -1,11 +1,9 @@
 import { mocked } from "ts-jest/utils";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { ComponentPropsWithoutRef } from "react";
-import { getQuizzes } from "../../../../src/utils/getQuizzes";
+import { getQuizzes, QuizArray } from "../../../../src/utils/getQuizzes";
 import { delayEventLoop } from "../../../delayEventLoop";
-import AnswerTemplate, {
-  QuizData,
-} from "../../../../src/components/pages/AnswerTemplate";
+import AnswerTemplate from "../../../../src/components/pages/AnswerTemplate";
 import { AnswerPropsProvider } from "../../../../src/contexts/AnswerProps";
 import { AnswerProps } from "../../../../src/ducks/AnswerTemplate/model";
 import { NextRouter } from "next/router";
@@ -65,7 +63,7 @@ function mockGetQuizzes(responseDocs: Documents) {
   });
 }
 describe("<AnswerTemplate />", () => {
-  const sortQuiz: QuizData = {
+  const sortQuiz: QuizArray[number]["data"] = {
     type: "sort",
     title: "quiz1",
     options: [
@@ -79,9 +77,7 @@ describe("<AnswerTemplate />", () => {
     mockGetQuizzes(([
       {
         id: "id1",
-        data: () => {
-          return sortQuiz;
-        },
+        data: sortQuiz,
       },
     ] as unknown) as Documents);
     render(<TestComponent correctAnswersLength={0} currentQuizIndex={0} />);
@@ -103,7 +99,7 @@ describe("<AnswerTemplate />", () => {
         text: "option1",
       },
     ];
-    const selectionQuiz: QuizData = {
+    const selectionQuiz: QuizArray[number]["data"] = {
       type: "selection",
       title: "quiz1",
       correctOptionId: 1,
@@ -112,9 +108,7 @@ describe("<AnswerTemplate />", () => {
     mockGetQuizzes(([
       {
         id: "id1",
-        data: () => {
-          return selectionQuiz;
-        },
+        data: selectionQuiz,
       },
     ] as unknown) as Documents);
     render(<TestComponent correctAnswersLength={0} currentQuizIndex={0} />);
