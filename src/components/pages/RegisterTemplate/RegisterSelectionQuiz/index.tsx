@@ -6,7 +6,7 @@ import { FormErrorText } from "../../../uikit/FormErrorText";
 import { FormItemLabel } from "../../../uikit/FormItemLabel";
 import { FormItemWrap } from "../../../uikit/FormItemWrap";
 import { Textfield } from "../../../uikit/Textfield";
-import { postQuiz, QuizToPost } from "../../../../utils/postQuiz";
+import { postQuiz, QuizToPost } from "../postQuiz";
 import { SelectionQuizOption } from "../SelectionQuizOption";
 import styled from "styled-components";
 

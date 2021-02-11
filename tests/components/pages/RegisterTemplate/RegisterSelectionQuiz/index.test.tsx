@@ -4,18 +4,21 @@ import {
   SelectionQuiz,
 } from "../../../../../src/components/pages/RegisterTemplate/RegisterSelectionQuiz";
 import { delayEventLoop } from "../../../../delayEventLoop";
-import { postQuiz } from "../../../../../src/utils/postQuiz";
+import { postQuiz } from "../../../../../src/components/pages/RegisterTemplate/postQuiz";
 import { StyleThemeProvider } from "../../../../../src/contexts/StyleThemeProvider";
 
 jest.spyOn(window, "alert").mockImplementation(jest.fn());
 
-jest.mock("../../../../../src/utils/postQuiz", () => {
-  return {
-    postQuiz: jest.fn().mockImplementation(() => {
-      return Promise.resolve;
-    }),
-  };
-});
+jest.mock(
+  "../../../../../src/components/pages/RegisterTemplate/postQuiz",
+  () => {
+    return {
+      postQuiz: jest.fn().mockImplementation(() => {
+        return Promise.resolve;
+      }),
+    };
+  }
+);
 
 function submitWithValidValues({
   titleElement,

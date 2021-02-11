@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SortQuizOption } from "../SortQuizOption";
 import { useRouter } from "next/router";
-import { postQuiz, QuizToPost } from "../../../../utils/postQuiz";
+import { postQuiz, QuizToPost } from "../postQuiz";
 import { FormItemLabel } from "../../../uikit/FormItemLabel";
 import { Textfield } from "../../../uikit/Textfield";
 import { FormErrorText } from "../../../uikit/FormErrorText";

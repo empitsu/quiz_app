@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { getQuizzes, QuizArray } from "../../../utils/getQuizzes";
+import { getQuizzes, QuizArray } from "./getQuizzes";
 import { useRouter } from "next/router";
 import { AnswerPropStore } from "../../../contexts/AnswerProps";
 import { Column1 } from "../../uikit/Column1";
@@ -37,13 +37,13 @@ function OverallGrade({ quizzesLength }: { quizzesLength: number }) {
         {quizzesLength}問中{state.correctAnswersLength}問正解しました。
       </StyledResultP>
       <FormItemWrap>
-        <Button isFullWidth color="secondary" onClick={onClickRetryBtn}>
+        <Button isFullWidth color="primary" onClick={onClickRetryBtn}>
           もう一度挑戦
         </Button>
       </FormItemWrap>
       <FormItemWrap>
         <Link href="/mypage/">
-          <Button isFullWidth color="info">
+          <Button isFullWidth color="secondary">
             TOPに戻る
           </Button>
         </Link>

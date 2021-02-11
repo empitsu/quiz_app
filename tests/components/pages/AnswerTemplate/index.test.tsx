@@ -1,7 +1,10 @@
 import { mocked } from "ts-jest/utils";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { ComponentPropsWithoutRef } from "react";
-import { getQuizzes, QuizArray } from "../../../../src/utils/getQuizzes";
+import {
+  getQuizzes,
+  QuizArray,
+} from "../../../../src/components/pages/AnswerTemplate/getQuizzes";
 import { delayEventLoop } from "../../../delayEventLoop";
 import AnswerTemplate from "../../../../src/components/pages/AnswerTemplate";
 import { AnswerPropsProvider } from "../../../../src/contexts/AnswerProps";
@@ -30,7 +33,7 @@ jest.mock(
   }
 );
 
-jest.mock("../../../../src/utils/getQuizzes");
+jest.mock("../../../../src/components/pages/AnswerTemplate/getQuizzes");
 
 beforeEach(() => {
   jest.resetModules();

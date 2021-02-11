@@ -1,4 +1,4 @@
-import { getApp } from "./firebaseHelpers";
+import { getApp } from "../../../utils/firebaseHelpers";
 
 // TODO:共通化？
 type Option = {
