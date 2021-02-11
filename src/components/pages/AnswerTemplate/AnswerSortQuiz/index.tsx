@@ -164,7 +164,7 @@ export function AnswerSortQuiz({ title, options }: AnswerQuizProps) {
             <Button
               disabled={isCorrect !== null}
               isFullWidth
-              color="secondary"
+              color="primary"
               onClick={onClickAnswerBtn}
             >
               これで回答する

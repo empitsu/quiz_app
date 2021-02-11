@@ -24,12 +24,7 @@ type Quiz =
     };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {
-    query: { random },
-    method,
-    headers,
-    body,
-  } = req;
+  const { method, headers, body } = req;
 
   switch (method) {
     case "GET": {
