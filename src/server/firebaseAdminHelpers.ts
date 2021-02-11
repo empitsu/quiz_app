@@ -1,5 +1,6 @@
 /**
  *
+ * refer to:
  * https://github.com/mizchi/next-boilerplate-20200727/blob/14aac72b22f6ee40b9075e69b3fd542cedb9b7d9/src/server/firebaseAdminHelpers.ts
  * https://firebase.google.com/docs/admin/setup
  * https://firebase.google.com/docs/firestore/quickstart#node.js
@@ -29,3 +30,5 @@ export async function verifyIdToken(idToken: string) {
   const admin = getAdmin();
   return await admin.auth().verifyIdToken(idToken);
 }
+
+export const filePathForDocumentId = admin.firestore.FieldPath.documentId();
