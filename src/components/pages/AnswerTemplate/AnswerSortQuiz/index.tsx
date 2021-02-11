@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { shuffleArray } from "../../../../utils/shuffleArray";
 import { AnswerResult } from "../AnswerResult";
 import { Heading } from "../../../uikit/Heading";
+import { isAnswerCorrect } from "../../../../ducks/AnswerSortQuiz/selectors";
 
 type AnswerQuizProps = {
   title: string;
@@ -41,7 +42,11 @@ function EachOptionButton({ option, dispatch }: EachOptionButtonProps) {
   }
 
   return (
-    <Button color="secondary" onClick={onClickAnswer}>
+    <Button
+      color="secondary"
+      onClick={onClickAnswer}
+      aria-label={`${option.text}を選択する`}
+    >
       {option.text}
     </Button>
   );
@@ -58,7 +63,11 @@ function SelectedOption({ option, dispatch }: SelectedOptionProps) {
   }, [dispatch, option]);
 
   return (
-    <Button color="secondary" onClick={onClickSelectedOption}>
+    <Button
+      color="secondary"
+      onClick={onClickSelectedOption}
+      aria-label={`${option.text}を戻す`}
+    >
       {option.text}
     </Button>
   );
@@ -89,6 +98,7 @@ const StyledRestOptionUl = styled.ul`
 const StyledList = styled.li`
   list-style: none;
   margin-right: 5px;
+  margin-bottom: 10px;
 `;
 
 const StyledSelectionQuizWrapDiv = styled.div`
@@ -116,15 +126,10 @@ export function AnswerSortQuiz({ title, options }: AnswerQuizProps) {
 
   // 正解かどうかチェックする
   const onClickAnswerBtn = useCallback(() => {
-    const isCorrect =
-      state.selectedOptions.length === 0
-        ? false
-        : state.selectedOptions.every((option, index) => {
-            return option.optionId === index;
-          });
+    const isCorrect = isAnswerCorrect(state);
 
     setIsCorrect(isCorrect);
-  }, [state.selectedOptions]);
+  }, [state]);
   return (
     <article>
       <Heading styleLevel="h3">ボタンを順番に選択してください</Heading>

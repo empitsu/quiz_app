@@ -5,3 +5,4 @@ export {
   reset,
 } from "./actions";
 export { reducer } from "./reducer";
+export { isAnswerCorrect } from "./selectors";
