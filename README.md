@@ -325,6 +325,9 @@
 - アプリケーションコードが Firebase にできるだけ依存しないように、firebase の package を import する処理は専用の helper に凝集させる。
   - src/utils/firebaseHelpers.ts
   - src/server/firebaseAdminHelpers.ts
+- ランダムなクイズ5件を取得する処理はパフォーマンスに配慮し、自動で割り振られるランダムなdocumentIdを活用。最大で2回までのDBアクセスで済むように実装。
+  - src/server/quizzes/getFromFirestoreRandomly.ts
+
 
 ## TypeScript
 
