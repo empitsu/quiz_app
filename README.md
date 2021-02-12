@@ -45,7 +45,7 @@
 
 1. 構成ファイルをソースコードに設置
 
-   /src/config ディレクトリに `firebaseConfig.json` というファイルを作成。  
+   `/src/config` ディレクトリに `firebaseConfig.json` というファイルを作成。  
    先程コピーした構成オブジェクトを JSON として貼り付ける。
 
    イメージ：
@@ -68,7 +68,7 @@
    1. プロジェクトページサイドメニューより「Authentication」セクションを開く。
    2. 「ログイン方法」タブで「メール / パスワード」を有効にして、[保存] をクリック。
 
-   詳細： https://firebase.google.com/docs/auth/web/password-auth?hl=ja
+    詳細： https://firebase.google.com/docs/auth/web/password-auth?hl=ja
 
 1. Firebase Admin SDK の秘密鍵の入手
 
@@ -80,7 +80,7 @@
 
 1. 秘密鍵をソースコードに設置
 
-   /src/config ディレクトリに `firebaseAdminConfig.json` というファイルを作成。  
+   `/src/config` ディレクトリに `firebaseAdminConfig.json` というファイルを作成。  
    先程入手した秘密鍵の内容を JSON として保存。
 
    イメージ：
@@ -179,6 +179,9 @@
 │   │       ├── reducer.ts
 │   │       └── types.ts
 │   ├── pages
+│   │   ├── api
+│   │   │   └── quizzes.ts
+│   │   └── index.tsx
 │   ├── server
 │   ├── styles
 │   └── utils
@@ -205,8 +208,10 @@
     - [re-ducks パターン](https://github.com/alexnm/re-ducks) に従って useReducer で使用する model や actions を設置。
   - pages
     - routing に対応するページコンポーネント
+    - api
+      - [API Routes](https://nextjs.org/docs/api-routes/introduction) を使用したAPIエンドポイント。
   - server
-    - api routes（サーバーサイド）でのみ使用する関数やヘルパー
+    - API routes（サーバーサイド）でのみ使用する関数やヘルパー
   - styles
     - CSS で使用するテーマの定義や normalize 用のスタイル
   - utils
@@ -220,7 +225,7 @@
 
 ## Unit Test
 
-- BDD の考えをベースに、「何が」「どうなるか」と意識して振る舞い単位でテストケースを実装。
+- BDD の考えをベースに、「何が」「どうなるか」を意識して振る舞い単位でテストケースを記載。
 
   ```typescript
   describe("<RegisterSortQuiz />", () => {
@@ -272,9 +277,9 @@
   });
   ```
 
-- props drilling が深くなる箇所はテストを書く際にモックの実装負荷を高いため、useContext も活用。
+- props drilling が深くなる箇所はテストを書く際のモックの実装負荷が高いため、useContext も活用。
 
-- 複雑な処理は reducer や selector に押し込めることでテストを書きやすく。
+- 複雑な処理は reducer や selector など純粋な関数に押し込めることでテストを書きやすく。
 
   - tests/ducks/AnswerSortQuiz/reducer.test.ts
 
@@ -315,17 +320,17 @@
 
 ## Firebase
 
-- Firestore はクライアントサイドからも直接アクセスができるが、永続化層に触るコードをクライアントサイドに露出させないためにサーバーサイド（Node.js）に実装。
+- Firestore はクライアントサイドからも直接アクセスすることもできるが、永続化層に触るコードをクライアントサイドに露出させないためにサーバーサイド（Node.js）に実装。
 - Firebase Authentication が生成した JWT Token を http ヘッダに付与し、サーバーサイドで verify することで認証を実装。
-- アプリケーションコードが Firebase にできるだけ依存しないように、firebase の package を import する処理は、専用の helper に凝集させる。
+- アプリケーションコードが Firebase にできるだけ依存しないように、firebase の package を import する処理は専用の helper に凝集させる。
   - src/utils/firebaseHelpers.ts
   - src/server/firebaseAdminHelpers.ts
 
 ## TypeScript
 
 - TypeScript は strict モードで設定。eslint, prettier も導入し安全性の低いコードを強制的に防止。
-- もちろん any や as でのキャストは極力使わないように。
-- uikit の汎用的なコンポーネントは、プリミティブな HTML 属性も渡せるよう汎用性の高い構造に。
+- もちろん any や as での型キャストは極力使わないように。
+- `uikit` の汎用的なコンポーネントは、プリミティブな属性も渡せるよう汎用性の高い構造に。
 
   - React や styled-components が提供している TypeScript の型エイリアスを活用し、安全性を担保しながらも少ないコードで汎用性をもたせる。
   - e.g. src/components/uikit/Textfield/index.tsx
@@ -345,3 +350,12 @@
       )
     );
     ```
+
+# 今後の課題
+
+* 複雑な処理をしている箇所しかテストが書けていないため、テストケースを増やしてテストカバレッジを上げる。
+* ローカルステートとuseContextを混在して使用しているコンポーネントがある。（src/components/pages/AnswerTemplate/index.tsx）  
+可読性の向上及び、テストをよりシンプルに書けるようにするために、他のローカルステートもuseContextで管理することを検討したい。
+* クイズデータに関する型定義がアプリケーション内にちらばっている。
+  メンテナンス性を上げるためにも、クイズデータの配列をuseContext+useReducerで管理し、そのmodelに型を定義してアプリケーション内で使い回せるようにしたい。
+* サーバーサイドはAPI Routes + Firebase を使用した簡易的な実装のため、Nest.jsやBlitzなどのフレームワークの使用も検討したい。
