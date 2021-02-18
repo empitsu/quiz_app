@@ -1,6 +1,6 @@
 ![logo](docs/images/logo.png)
 
-# 技術スタック
+# Technologies
 
 - Next.js
 - TypeScript
@@ -9,7 +9,7 @@
 - Jest + Testing Library
 - styled-components
 
-# セットアップ手順
+# How to Setup
 
 1. [Firebase コンソール](https://console.firebase.google.com/) より Firebase プロジェクトを作成。
 
@@ -114,7 +114,7 @@
 
    起動したら、http://localhost:3000/ をブラウザで開く。
 
-# UI デザインについて
+# UI Design
 
 ## Color
 
@@ -221,7 +221,7 @@
   - types
     - 型定義ファイル
 
-# こだわったところ
+# Highlights
 
 ## Unit Test
 
@@ -354,11 +354,11 @@
     );
     ```
 
-# 今後の課題
+# Issue
 
 * 複雑な処理をしている箇所しかテストが書けていないため、テストケースを増やしてテストカバレッジを上げる。
 * ローカルステートとuseContextを混在して使用しているコンポーネントがある。（src/components/pages/AnswerTemplate/index.tsx）  
 可読性の向上及び、テストをよりシンプルに書けるようにするために、他のローカルステートもuseContextで管理することを検討したい。
 * クイズデータに関する型定義がアプリケーション内にちらばっている。
   メンテナンス性を上げるためにも、クイズデータの配列をuseContext+useReducerで管理し、そのmodelに型を定義してアプリケーション内で使い回せるようにしたい。
-* サーバーサイドはAPI Routes + Firebase を使用した簡易的な実装のため、Nest.jsやBlitzなどのフレームワークの使用も検討したい。
+* サーバーサイドはAPI Routes + Firebase を使用した簡易的な実装のため、Nest.jsやexpress, fastifyなどのNode.jsフレームワーク、もしくはBlitz, frourioなどのフルスタックフレームワークの使用も検討したい。
